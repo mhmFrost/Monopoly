@@ -19,7 +19,6 @@ class Field{
 +String color
 +boolean hasMortgage
 +takeOutMortgage()
-+sell(Player newOwner)
 }
 
 class Street{
@@ -29,32 +28,42 @@ class Street{
 +Player owner
 +build(Building building)
 +demolish(Building building)
++sell(Player newOwner)
 }
+
 class TrainStation{
 +int price
 +Player owner
 +int[] upgradeValues
++sell(Player newOwner)
 }
+
 class ServiceField{
 +int serviceFee
 +Player owner
 +int[] upgradeFactors
++sell(Player newOwner)
 }
+
 class ChanceField{
 +Card[] chanceCards
 +Card getCard()
 }
+
 class TaxField{
 +int tax
 }
+
 class CommunityChest{
 +Card[] communityChestCards
 +Card getCard()
 }
+
 class SpecialField{
 +action(Player player)
 }
 ```
+
 ``` mermaid
 classDiagram
 class Board{

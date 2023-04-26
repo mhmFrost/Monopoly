@@ -3,11 +3,24 @@ package fields;
 import building.Building;
 import player.Player;
 
-public class Street {
+import java.util.Arrays;
+
+public class Street extends Field{
+
     private int price;
-    private Building[] buildings;
+    private Building[] buildings = new Building[4];
     private int[] upgradeValues;
     private Player owner;
+
+    public Street(String name, String color, int price) {
+        super(name, color);
+        this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return super.name() +"," + super.color()+"," + getPrice() + "," + getOwner() + "," +  getBuildings();
+    }
 
     public void build(Building building){
     }

@@ -7,15 +7,19 @@ import fields.TaxField;
 import java.util.Random;
 
 public class Player {
-    private String name;
-    private String color;
-    private int score;
-    private boolean isInJail;
-    private String figurine;
+    private String name = "";
+    private String color = "";
+    private int score = 0;
+    private boolean isInJail = false;
+    private String figurine = "";
     private Field[] properties;
-    private int doubles;
-    private int money;
+    private int doubles = 0;
+    private int money = 1500;
 
+    public Player(String name, String color) {
+        this.name = name;
+        this.color = color;
+    }
 
     public void rollDice() {
         Random rand = new Random();
@@ -58,6 +62,9 @@ public class Player {
 
     // Getter and Setter
     public String getName() {
+        if (name == null){
+            return "";
+        }
         return name;
     }
 
@@ -121,4 +128,8 @@ public class Player {
         this.properties = properties;
     }
 
+    @Override
+    public String toString() {
+        return name + " " +money;
+    }
 }

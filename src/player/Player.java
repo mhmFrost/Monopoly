@@ -16,15 +16,30 @@ public class Player {
     private int doubles = 0;
     private int money = 1500;
 
+    /**
+     * Initializes a new player with a given name, color and starting amount of $1,500 in the bank.
+     * @param name e.g. <i>Tim</i>
+     * @param color e.g. <i>red</i>
+     */
     public Player(String name, String color) {
         this.name = name;
         this.color = color;
     }
 
+    /**
+     * Rolls dice and moves player by any number between <b>2 - 12</b> across the board.
+     * <ul>
+     *     <li>If the player rolls a <b>double</b>, he/she can will automatically <b>roll again</b>.</li>
+     *     <li>If <b>3 doubles</b> occur in a row, the player is being <b>sent to jail</b>.</li>
+     * </ul>
+     */
     public void rollDice() {
         Random rand = new Random();
+        //int diceOne rand.nextInt( 1, 7 );
+        //Could you use this expression above?
         int diceOne = rand.nextInt(6) + 1;      // roll Dice 1
         int diceTwo = rand.nextInt(6) + 1;      // roll Dice 2
+        // is it important that it's a 'diceResult' or are we talking about the 'steps' here?
         int diceResult = diceOne + diceTwo;     // result of Dices
 
         if (diceOne == diceTwo) {               // check if doubles
@@ -128,8 +143,13 @@ public class Player {
         this.properties = properties;
     }
 
+    /**
+     * Use me to describe my function in the program instead of //.
+     * So I also show up when you hover over the method.
+     * @return e.g. <i>Tim $1500</i>
+     */
     @Override
     public String toString() {
-        return name + " " +money;
+        return name + " $" +money;
     }
 }

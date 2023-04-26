@@ -1,8 +1,12 @@
 package fields;
 
-import java.util.ArrayList;
+import building.Building;
+import player.Player;
 
 public class Street {
     private int price;
-    private ArrayList buildings;
+    private Building[] buildings;
+    private int[] upgradeValues;
+    private Player owner;
+
 }

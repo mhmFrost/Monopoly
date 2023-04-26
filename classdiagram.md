@@ -27,7 +27,7 @@ class Street{
 +int[] upgradeValues
 +Player owner
 +build(Building building)
-+demolish(Building building)
++demolish()
 +sell(Player newOwner)
 }
 

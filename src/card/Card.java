@@ -23,10 +23,10 @@ public class Card {
     }
 
     /**
-     * Creates a card, where a player can be sent to jail, moved or earny a free ticket out of jail, if drawn.
-     * @param title
-     * @param message
-     * @param action
+     * Creates a card, where a player can be sent to jail, moved or earn a free ticket out of jail, if drawn.
+     * @param title "Oops"
+     * @param message "You're going to jail..."
+     * @param action player::goToJail
      */
     public Card(String title, String message, Function<Void, Void> action) {
         this.title = title;

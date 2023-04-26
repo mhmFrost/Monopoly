@@ -16,7 +16,9 @@ public abstract class Field {
     public void takeOutMortgage() {
         this.hasMortgage = !hasMortgage;
     };
-    public abstract void sell(Player newOwner);
+    public void sell(Player newOwner) {
+
+    };
 
     public String name() {
         return name;

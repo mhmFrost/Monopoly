@@ -7,6 +7,12 @@ Field <|-- ChanceField
 Field <|-- TaxField
 Field <|-- CommunityChest
 Field <|-- SpecialField
+SpecialField <|-- GoField
+SpecialField <|-- JailField
+SpecialField <|-- FreeParkingField
+SpecialField <|-- GoToJailField
+note for Field "Abstract"
+note for SpecialField "Abstract"
 
 class Field{
 +String name 
@@ -15,6 +21,7 @@ class Field{
 +takeOutMortgage()
 +sell(Player newOwner)
 }
+
 class Street{
 +int price
 +Buildings[] buildings
@@ -30,16 +37,19 @@ class TrainStation{
 }
 class ServiceField{
 +int serviceFee
++Player owner
 +int[] upgradeFactors
 }
 class ChanceField{
 +Card[] chanceCards
++Card getCard()
 }
 class TaxField{
 +int tax
 }
 class CommunityChest{
 +Card[] communityChestCards
++Card getCard()
 }
 class SpecialField{
 +action(Player player)
@@ -59,11 +69,13 @@ class Player{
 +String color
 +int score
 +boolean isInJail
++boolean hasJailCard
++boolean hasDouble
 +String figurine
 +Field[] properties
 +checkMortgages()
-+drawChanceCard()
-+drawCommunityChestCard()
++drawChanceCard(Card card)
++drawCommunityChestCard(Card card)
 +Field[] getProperties()
 +move(int n)
 +payRent(Field Field)

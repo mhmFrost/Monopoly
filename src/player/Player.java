@@ -49,6 +49,7 @@ public class Player {
     }
 
     public void payRent(Field field) {
+        //setMoney(money - field.getRent());
     }
 
     public void payTax(TaxField field) {

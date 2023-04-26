@@ -2,6 +2,7 @@ package player;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Player {
     private String name;
@@ -9,7 +10,8 @@ public class Player {
     private int score;
     private boolean isInJail;
     private String figurine;
-    private ArrayList[] properties;
+    private Field[] properties;
+    private int doubles;
 
     public String getName() {
         return name;
@@ -51,24 +53,57 @@ public class Player {
         this.figurine = figurine;
     }
 
-    public ArrayList[] getProperties() {
+    public int getDoubles() {
+        return doubles;
+    }
+
+    public void setDoubles(int doubles) {
+        this.doubles = doubles;
+    }
+
+    public Field[] getProperties() {
         return properties;
     }
 
-    public void setProperties(ArrayList[] properties) {
+    public void setProperties(Field[] properties) {
         this.properties = properties;
     }
-    public void checkMortgages(){
+
+    public void rollDice() {
+        Random rand = new Random();
+        int diceOne = rand.nextInt(6) + 1;
+        int diceTwo = rand.nextInt(6) + 1;
+        int diceResult = diceOne + diceTwo;
+
+        if (diceOne == diceTwo) {
+            doubles++;
+            move(diceResult);
+            if (doubles == 3) {
+                setInJail(true);
+                doubles = 0;
+            }
+        } else {
+            move(diceResult);
+            doubles = 0;
+        }
     }
-    public void drawChanceCard(){
+
+    public void checkMortgages() {
     }
-    public void drawCommunityChestCard(){
+
+    public void drawChanceCard() {
     }
-    public void move(int n){
+
+    public void drawCommunityChestCard() {
     }
-    public void payRent(Field Field){
+
+    public void move(int n) {
     }
-    public void payTax(){
+
+    public void payRent(Field Field) {
+    }
+
+    public void payTax() {
     }
 
 }

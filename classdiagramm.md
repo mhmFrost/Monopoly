@@ -68,6 +68,7 @@ class Player{
 +String name
 +String color
 +int score
++int doubles
 +boolean isInJail
 +boolean hasJailCard
 +boolean hasDouble

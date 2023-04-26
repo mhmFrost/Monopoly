@@ -11,7 +11,7 @@ public class Card {
     private Function<Void, Void> action;
 
     /**
-     * Creates a card, where a player can get or loose money, if drawn.
+     * Creates a card, where a player can win or loose money, if drawn.
      * @param title "Congratulations"
      * @param message "Banking error: collect $200"
      * @param money 200 | value can be positive or negative
@@ -23,7 +23,7 @@ public class Card {
     }
 
     /**
-     * Creates a card, where a player can be sent to jail, moved or earn a free ticket out of jail, if drawn.
+     * Creates a card, where a player can be sent to jail, moved or earn a ticket out of jail, if drawn.
      * @param title "Oops"
      * @param message "You're going to jail..."
      * @param action player::goToJail
@@ -37,7 +37,7 @@ public class Card {
     }
 
     public void activate(Player player) {
-//        int currentBalance = player.getMoney();
-//        player.setMoney(currentBalance + money);
+        int currentBalance = player.getMoney();
+        player.setMoney(currentBalance + money);
     }
 }

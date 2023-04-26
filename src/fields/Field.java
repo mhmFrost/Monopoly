@@ -3,9 +3,9 @@ package fields;
 import player.Player;
 
 public abstract class Field {
-    String name;
-    String color;
-    boolean hasMortgage;
+    private String name;
+    private String color;
+    private boolean hasMortgage;
 
     public Field(String name, String color) {
         this.name = name;

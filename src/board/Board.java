@@ -84,7 +84,8 @@ public class Board {
             switch (fieldID) {
                 case 0 -> fields[fieldID] = new GoField();
                 case 2, 17, 33 -> fields[fieldID] = new CommunityChest();
-                case 4, 38 -> fields[fieldID] = new TaxField(fieldID % 4 == 0 ? "Income Tax" : "Luxury Tax");
+                case 4, 38 ->
+                        fields[fieldID] = new TaxField(fieldID % 4 == 0 ? "Income Tax" : "Luxury Tax", fieldID % 4 == 0 ? 200 : 100);
                 case 5, 15, 25, 35 -> fields[fieldID] = new Trainstation(railroads[railRoadCounter++]);
                 case 7, 22, 36 -> fields[fieldID] = new ChanceField();
                 case 10 -> fields[fieldID] = new JailField();
@@ -103,6 +104,7 @@ public class Board {
 
     /**
      * Gets all fields on the board and returns them as Field[].
+     *
      * @return Field[]
      * @see Field
      * @see Street
@@ -118,6 +120,7 @@ public class Board {
 
     /**
      * Get a Street-object by a given name.
+     *
      * @param streetName e.g. <i>Mediterranean Avenue</i>
      * @return Street-object
      * @see Street
@@ -128,6 +131,7 @@ public class Board {
 
     /**
      * Returns all streets on the board as Street[].
+     *
      * @return Street[]
      * @see Street
      */
@@ -137,6 +141,7 @@ public class Board {
 
     /**
      * Returns an array of all streets that have the same color.
+     *
      * @param color e.g. <i>red</i>
      * @return Street[]
      */
@@ -172,6 +177,7 @@ public class Board {
      * BROWN 🏘<br>
      * -	Mediterranean Avenue,Brown,60,Tim,[🏠]<br>
      * -	Baltic Avenue,Brown,60,Tim,<br>
+     *
      * @param color "blue"
      */
     public void printStreetsOfOneColor(String color) {

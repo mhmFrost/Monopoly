@@ -110,8 +110,8 @@ public class Player {
         //setMoney(money - field.getRent());
     }
 
-    public void payTax(TaxField field) {
-        //setMoney(money - field.getTax());
+    public void payTax(Field field) {
+        setMoney(money - ((TaxField)field).getTax());
     }
 
     // Getter and Setter

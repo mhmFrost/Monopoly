@@ -1,10 +1,7 @@
 import board.Board;
 import building.Hotel;
 import building.House;
-import fields.ChanceField;
-import fields.CommunityChest;
-import fields.Field;
-import fields.Street;
+import fields.*;
 import player.Player;
 
 public class Main {
@@ -23,5 +20,8 @@ public class Main {
         board.getStreetByName("Baltic Avenue").build(new House(),board);
         board.getStreetByName("Mediterranean Avenue").build(new House(),board);
 
+        System.out.println(tim);
+        tim.payTax(board.getFields()[4]);
+        System.out.println(tim);
     }
 }

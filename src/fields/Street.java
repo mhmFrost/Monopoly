@@ -50,8 +50,6 @@ public class Street extends Field {
             default -> buildPrice = 50;
         }
     }
-
-    //@TODO make checkOwner boolean nur wenn alle Straßen einer Farbe dem Spiel der bauen will gehören
     public boolean ownEntireNeighborhood(Board board) {
         boolean checkOwner = true;
         Street[] currentBoard = board.getAllStreetsOfOneColor(color());
@@ -139,7 +137,6 @@ public class Street extends Field {
      *     and Street don't already has an Owner.</li>
      * </ul>
      */
-    // Todo add to properties
     public void sell(Player newOwner) {
         if (!hasOwner() && newOwner.checkMoney(price)) {
             if (newOwner.buy(price)) {

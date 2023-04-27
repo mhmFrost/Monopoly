@@ -30,6 +30,14 @@ public class Player {
         this.color = color;
     }
 
+    public boolean buy(int price) {
+        if (checkMoney(price)) {
+            money -= price;
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Rolls dice and moves player by any number between <b>2 - 12</b> across the board.
      * <ul>
@@ -57,6 +65,7 @@ public class Player {
             doubles = 0;
         }
     }
+
     /**
      * checkMoney
      * <ul>
@@ -64,9 +73,10 @@ public class Player {
      *     <li>returns False if Player has not enough Money</li>
      * </ul>
      */
-    public boolean checkMoney(int n){
+    public boolean checkMoney(int n) {
         return money - n > 0;
     }
+
     public void checkMortgages() {
         //if Player has to pay something and no Money, this method checks for Mortgages
     }

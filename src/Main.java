@@ -7,25 +7,18 @@ import fields.Field;
 import fields.Street;
 import player.Player;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         Player tim = new Player("Tim", "Orange");
-        Field street = new Street("Badstr.", "Braun", 25);
-
-        ((Street) street).build(new House());
-        ((Street) street).build(new House());
-        ((Street) street).build(new Hotel());
-        ((Street) street).build(new House());
-        ((Street) street).build(new House());
-        ((Street) street).build(new House());
-        ((Street) street).demolish();
-        System.out.println(street);
-        street.sell(tim);
+        Player max = new Player("Max", "red");
 
         Board board = new Board();
         board.printBoard();
-        System.out.println(Arrays.toString(board.getAllStreetsOfOneColor("red")));
+
+        board.getStreetByName("Mediterranean Avenue").sell(tim);
+        board.getStreetByName("Mediterranean Avenue").build(new House(),board);
+        board.getStreetByName("Baltic Avenue").sell(tim);
+        board.getStreetByName("Mediterranean Avenue").build(new House(),board);
+
     }
 }

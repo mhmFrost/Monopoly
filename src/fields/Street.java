@@ -1,14 +1,17 @@
 package fields;
 
+import board.Board;
 import building.Building;
 import player.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Street extends Field {
 
     private int price;
+    private int buildPrice;
     private List<Building> buildings = new ArrayList<>();
     private int[] upgradeValues;
     private Player owner;
@@ -27,15 +30,6 @@ public class Street extends Field {
                 + (buildings.size() > 0 ? buildings : "");
     }
 
-    /**
-     * build building on Street
-     * <ul>
-     *     <li>build Building on Street possibilities House or Hotel </li>
-     * </ul>
-     */
-    public void build(Building building) {
-        buildings.add(building);
-    }
 
     /**
      * demolish building on Street
@@ -46,22 +40,42 @@ public class Street extends Field {
     public void demolish() {
         buildings.remove(buildings.size() - 1);
     }
-     //@TODO make checkOwner boolean nur wenn alle Straßen einer Farbe dem Spiel der bauen will gehören
-    public boolean checkOwner() {
-        return true;
+
+    public void determineBuildPrice() {
+        switch (color().toLowerCase()) {
+            case "orange", "pink" -> buildPrice = 100;
+            case "red", "yellow" -> buildPrice = 150;
+            case "green", "blue" -> buildPrice = 200;
+            default -> buildPrice = 50;
+        }
     }
+
+    //@TODO make checkOwner boolean nur wenn alle Straßen einer Farbe dem Spiel der bauen will gehören
+    public boolean checkOwner(Board board) {
+        boolean checkOwner = true;
+        Street[] currentBoard = board.getAllStreetsOfOneColor(color());
+        System.out.println(Arrays.toString(currentBoard));
+        for (Street street : currentBoard) {
+            if(street.owner == null || street.owner != owner){
+                checkOwner = false;
+            }
+        }
+        return checkOwner;
+    }
+
     /**
      * has Empty slot
      * <ul>
      *     <li>returns True if there are less then 4 Buildings on the street</li>
      * </ul>
      */
-    public boolean hasEmptySlot(){
+    public boolean hasEmptySlot() {
         return buildings.size() < 4;
     }
 
     //@TODO make evenBuilt boolean min und max ist entweder gleich oder BebauteGebäudeAnzahlAufStrasse + 1 <= max-Wert
-    public boolean evenBuilt(){
+    public boolean evenBuilt(Board board) {
+
         return true;
     }
 
@@ -73,7 +87,22 @@ public class Street extends Field {
      * </ul>
      */
     public boolean hasOwner() {
-        return getOwner() == null;
+        return getOwner() != null;
+    }
+
+    /**
+     * build building on Street
+     * <ul>
+     *     <li>build Building on Street possibilities House or Hotel </li>
+     * </ul>
+     */
+    //TODO evenbuilt noch einfügen
+    public void build(Building building, Board board) {
+        if (hasEmptySlot() && checkOwner(board) && owner.checkMoney(buildPrice)) {
+            buildings.add(building);
+            owner.buy(buildPrice);
+            System.out.println(this);
+        }
     }
 
     /**
@@ -85,18 +114,20 @@ public class Street extends Field {
      */
     // Todo add to properties
     public void sell(Player newOwner) {
-        if (hasOwner()) {
-            if (newOwner.checkMoney(this.getPrice())) {
+        if (!hasOwner() && newOwner.checkMoney(price)) {
+            if (newOwner.buy(price)) {
                 this.setOwner(newOwner);
-                newOwner.setMoney(newOwner.getMoney() - this.getPrice());
-                System.out.println(newOwner.getName() + " has bought this street");
-            } else {
-                System.out.println(newOwner.getName() + " don't have enough money to buy this street.");
+                System.out.println(newOwner.getName() + " has bought " + this.name());
             }
-        } else {
-            System.out.println("This Street already has a Owner.");
+        }
+        if (!newOwner.checkMoney(price)) {
+            System.out.println(newOwner.getName() + " don't have enough money to buy " + this.name());
+        }
+        if (!hasOwner()) {
+            System.out.println(this.name() + " already has" + owner.getName() + " as Owner.");
         }
     }
+
 
     // Getter & Setter
     public int getPrice() {

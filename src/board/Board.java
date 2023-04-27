@@ -76,6 +76,13 @@ public class Board {
                 400
         };
 
+        int[][] rents = {
+                {2, 10, 30, 90, 160, 250},
+                {4, 20, 60, 180, 320, 450},
+                // TODO: Add remaining rents from table here
+                // {Site,1 hse,	2 hses,	3 hses,	4 hses,	Hotel}
+                // https://www.jdawiseman.com/papers/trivia/monopoly-rents.html
+        };
 
         int streetCounter = 0;
         int priceCounter = 0;
@@ -86,11 +93,11 @@ public class Board {
                 case 2, 17, 33 -> fields[fieldID] = new CommunityChest();
                 case 4, 38 ->
                         fields[fieldID] = new TaxField(fieldID % 4 == 0 ? "Income Tax" : "Luxury Tax", fieldID % 4 == 0 ? 200 : 100);
-                case 5, 15, 25, 35 -> fields[fieldID] = new Trainstation(railroads[railRoadCounter++]);
+                case 5, 15, 25, 35 -> fields[fieldID] = new Trainstation(railroads[railRoadCounter++], 200);
                 case 7, 22, 36 -> fields[fieldID] = new ChanceField();
                 case 10 -> fields[fieldID] = new JailField();
                 case 12, 28 ->
-                        fields[fieldID] = new ServiceField(fieldID % 12 == 0 ? "⚡️Electric Company " : "💧Water Works");
+                        fields[fieldID] = new ServiceField(fieldID % 12 == 0 ? "⚡️Electric Company" : "💧Water Works", 150);
                 case 20 -> fields[fieldID] = new FreeParkingField();
                 case 30 -> fields[fieldID] = new GoToJailField();
 
@@ -127,6 +134,21 @@ public class Board {
      */
     public Street getStreetByName(String streetName) {
         return (Street) Arrays.stream(fields).filter(f -> f.name().equals(streetName)).toList().get(0);
+    }
+
+    public ServiceField getServiceFieldByName(String serviceFieldName) {
+        return (ServiceField) Arrays.stream(fields).filter(f -> f.name().equals(serviceFieldName)).toList().get(0);
+    }
+
+    /**
+     * Get a Trainstation-object by a given name.
+     *
+     * @param trainstationName e.g. <i>Reading Railroad</i>
+     * @return Trainstation-object
+     * @see Trainstation
+     */
+    public Trainstation getTrainstationByName(String trainstationName) {
+        return (Trainstation) Arrays.stream(fields).filter(f -> f.name().equals(trainstationName)).toList().get(0);
     }
 
     /**

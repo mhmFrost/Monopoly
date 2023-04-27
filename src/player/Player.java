@@ -1,8 +1,6 @@
 package player;
 
-import fields.Field;
-import fields.Street;
-import fields.TaxField;
+import fields.*;
 
 
 import java.util.ArrayList;
@@ -20,6 +18,8 @@ public class Player {
     private int money = 1500;
     private boolean hasDouble = false;
 
+    private int diceSum = 0;
+
     /**
      * Initializes a new player with a given name, color and starting amount of $1,500 in the bank.
      *
@@ -31,18 +31,20 @@ public class Player {
         this.color = color;
     }
 
-    public void addProperty(Field field){
+    public void addProperty(Field field) {
         properties.add(field);
     }
-    public void removeProperty(String streetname){
+
+    public void removeProperty(String streetname) {
         Field field = null;
         for (Field property : properties) {
-            if (property.name().toLowerCase().equals(streetname.toLowerCase())){
+            if (property.name().toLowerCase().equals(streetname.toLowerCase())) {
                 field = property;
             }
         }
         properties.remove(field);
     }
+
     public boolean buy(int price) {
         if (checkMoney(price)) {
             money -= price;
@@ -66,7 +68,8 @@ public class Player {
         if (diceOne == diceTwo) {
             doubles++;
             hasDouble = true;
-            move(diceOne + diceTwo);
+            diceSum = diceOne + diceTwo;
+            move(diceSum);
             if (doubles == 3) {
                 setInJail(true);
                 doubles = 0;
@@ -107,11 +110,46 @@ public class Player {
     }
 
     public void payRent(Field field) {
-        //setMoney(money - field.getRent());
+        int rent = 0;
+        Player owner = null;
+
+        // getRealRentsFrom rents array in each class.
+        if (field instanceof Street) {
+            rent = 50;
+            owner = ((Street)field).getOwner();
+        }
+        if (field instanceof Trainstation) {
+            rent = 25;
+            owner = ((Street)field).getOwner();
+        }
+        if (field instanceof ServiceField) {
+            rent = diceSum * 4;
+            owner = ((Street)field).getOwner();
+        }
+
+        setMoney(money - rent);
+        owner.setMoney(owner.getMoney() + rent);
+
+        System.out.println(this.name + " paid $" + rent + " in rent to " + owner.name);
+
+        //TODO: askForTakingOutMortgages or SellingHouses or Trade Streets
+        if (money < 0) {
+            System.out.println("Oops, " + name + " has no money left: $" + money);
+            System.out.println("You should take out a mortgage, sell houses or streets.");
+        }
     }
 
     public void payTax(Field field) {
-        setMoney(money - ((TaxField)field).getTax());
+
+        int tax = ((TaxField) field).getTax();
+        setMoney(money - tax);
+        System.out.println(this.name + " paid $" + tax + " in taxes to the bank 🏦");
+
+        //TODO: askForTakingOutMortgages or SellingHouses or Trade Streets
+        if (money < 0) {
+            System.out.println("Oops, " + name + " has no money left: $" + money);
+            System.out.println("You should take out a mortgage, sell houses or streets.");
+        }
     }
 
     // Getter and Setter

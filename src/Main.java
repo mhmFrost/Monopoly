@@ -20,8 +20,19 @@ public class Main {
         board.getStreetByName("Baltic Avenue").build(new House(),board);
         board.getStreetByName("Mediterranean Avenue").build(new House(),board);
 
-        System.out.println(tim);
         tim.payTax(board.getFields()[4]);
+
+        board.getTrainstationByName("Reading Railroad").sell(max);
+
+
+        board.getServiceFieldByName("⚡️Electric Company").sell(max);
+        System.out.println(max.getProperties());
+        System.out.println(tim.getProperties());
+
+        System.out.println(max);
+        System.out.println(tim);
+        max.payRent(board.getStreetByName("Baltic Avenue"));
+        System.out.println(max);
         System.out.println(tim);
     }
 }

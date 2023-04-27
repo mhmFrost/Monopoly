@@ -13,22 +13,40 @@ public class Street extends Field {
     private int price;
     private int buildPrice;
     private List<Building> buildings = new ArrayList<>();
-    private int[] upgradeValues;
+    private int[] rents;
     private Player owner;
 
     public Street(String name, String color, int price) {
         super(name, color);
         this.price = price;
         determineBuildPrice();
+        //TODO: init rents in board setup
     }
 
     @Override
     public String toString() {
-        return super.name() + ","
-                + super.color() + ","
-                + getPrice()
-                + (owner != null ? "," + owner.getName() + "," : "")
+        String colorEmoji = getColorEmoji();
+
+        return "🏘" + super.name()
+                + " " + colorEmoji
+                + " $" + getPrice()
+                + (owner != null ? " 🔑" + owner.getName() + " " : "")
                 + (buildings.size() > 0 ? buildings : "");
+    }
+
+    private String getColorEmoji() {
+        String colorEmoji = "";
+        switch (super.color().toLowerCase()) {
+            case "brown" -> colorEmoji = "🟤";
+            case "blue" -> colorEmoji = "🔵";
+            case "green" -> colorEmoji = "🟢";
+            case "orange" -> colorEmoji = "🟠";
+            case "pink" -> colorEmoji = "🌸";
+            case "red" -> colorEmoji = "🔴";
+            case "yellow" -> colorEmoji = "🟡";
+            case "lightblue" -> colorEmoji = "🌐";
+        }
+        return colorEmoji;
     }
 
 
@@ -50,6 +68,7 @@ public class Street extends Field {
             default -> buildPrice = 50;
         }
     }
+
     public boolean ownEntireNeighborhood(Board board) {
         boolean checkOwner = true;
         Street[] currentBoard = board.getAllStreetsOfOneColor(color());
@@ -74,6 +93,7 @@ public class Street extends Field {
     /**
      * evenly Built
      * checks if the min & max Buildingnumber of each Street is equal or new build + 1 is not larger than max
+     *
      * @param board current board
      * @return boolean
      */
@@ -108,18 +128,24 @@ public class Street extends Field {
      * </ul>
      */
     public void build(Building building, Board board) {
-        if (!hasEmptySlot()){
-            System.out.println(this.name() + " has no space left to build!");
+        String colorEmoji = getColorEmoji();
+
+        if (!hasEmptySlot()) {
+            System.out.println(this.name() + " has no space left to build! ❌");
         }
-        if (!ownEntireNeighborhood(board)){
-            System.out.println(owner.getName() + " doesnt own all required Streets in the Neighborhood");
+
+        if (!ownEntireNeighborhood(board)) {
+            System.out.println(owner.getName() + " doesn't own all required streets in this neighborhood " + colorEmoji + " ❌");
         }
-        if (!owner.checkMoney(buildPrice)){
-            System.out.println(owner.getName() +  " doesnt have enough money!");
+
+        if (!owner.checkMoney(buildPrice)) {
+            System.out.println(owner.getName() + " doesnt have enough money! ❌");
         }
-        if (!evenBuilt(board)){
-            System.out.println(this.name() + " has to be even build");
+
+        if (!evenBuilt(board)) {
+            System.out.println(this.name() + " has to be evenly built across all streets in neighborhood " + colorEmoji + " ❌");
         }
+
         if (hasEmptySlot()
                 && ownEntireNeighborhood(board)
                 && owner.checkMoney(buildPrice)
@@ -138,18 +164,31 @@ public class Street extends Field {
      * </ul>
      */
     public void sell(Player newOwner) {
+        String colorEmoji = getColorEmoji();
+
         if (!hasOwner() && newOwner.checkMoney(price)) {
             if (newOwner.buy(price)) {
+
                 this.setOwner(newOwner);
-                System.out.println(newOwner.getName() + " has bought " + this.name());
                 newOwner.addProperty(this);
+
+                System.out.println(
+                        newOwner.getName()
+                                + " has bought "
+                                + this.name()
+                                + " " + colorEmoji
+                                + " for $"
+                                + this.price
+                );
             }
         }
+
         if (!newOwner.checkMoney(price)) {
-            System.out.println(newOwner.getName() + " don't have enough money to buy " + this.name());
+            System.out.println(newOwner.getName() + " doesn't have enough money to buy " + this.name());
         }
+
         if (!hasOwner()) {
-            System.out.println(this.name() + " already has" + owner.getName() + " as Owner.");
+            System.out.println(this.name() + " " + colorEmoji + " is already owned by " + owner.getName());
         }
     }
 
@@ -171,12 +210,12 @@ public class Street extends Field {
         this.buildings = buildings;
     }
 
-    public int[] getUpgradeValues() {
-        return upgradeValues;
+    public int[] getRents() {
+        return rents;
     }
 
-    public void setUpgradeValues(int[] upgradeValues) {
-        this.upgradeValues = upgradeValues;
+    public void setRents(int[] rents) {
+        this.rents = rents;
     }
 
     public Player getOwner() {

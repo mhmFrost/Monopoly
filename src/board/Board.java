@@ -41,10 +41,10 @@ public class Board {
         };
 
         String[] railroads = {
-          "Reading Railroad",
-          "Pennsylvania Railroad",
-          "B&O Railroad",
-          "Short Line",
+                "Reading Railroad",
+                "Pennsylvania Railroad",
+                "B&O Railroad",
+                "Short Line",
         };
 
         int[] streetPrices = {
@@ -84,7 +84,8 @@ public class Board {
                 case 5, 15, 25, 35 -> fields[fieldID] = new Trainstation(railroads[railRoadCounter++]);
                 case 7, 22, 36 -> fields[fieldID] = new ChanceField();
                 case 10 -> fields[fieldID] = new JailField();
-                case 12, 28 -> fields[fieldID] = new ServiceField(fieldID % 12 == 0 ? "⚡️Electric Company " : "💧Water Works");
+                case 12, 28 ->
+                        fields[fieldID] = new ServiceField(fieldID % 12 == 0 ? "⚡️Electric Company " : "💧Water Works");
                 case 20 -> fields[fieldID] = new FreeParkingField();
                 case 30 -> fields[fieldID] = new GoToJailField();
 
@@ -102,6 +103,10 @@ public class Board {
 
     public Street getStreetByName(String streetName) {
         return (Street) Arrays.stream(fields).filter(f -> f.name().equals(streetName)).toList().get(0);
+    }
+
+    public Street[] getAllStreets() {
+        return (Street[]) Arrays.stream(fields).filter(f -> f instanceof Street).toArray();
     }
 
     public void printBoard() {

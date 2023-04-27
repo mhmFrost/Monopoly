@@ -15,10 +15,12 @@ public class Player {
     private Field[] properties;
     private int doubles = 0;
     private int money = 1500;
+    private boolean hasDouble = false;
 
     /**
      * Initializes a new player with a given name, color and starting amount of $1,500 in the bank.
-     * @param name e.g. <i>Tim</i>
+     *
+     * @param name  e.g. <i>Tim</i>
      * @param color e.g. <i>red</i>
      */
     public Player(String name, String color) {
@@ -35,36 +37,39 @@ public class Player {
      */
     public void rollDice() {
         Random rand = new Random();
-        //int diceOne rand.nextInt( 1, 7 );
-        //Could you use this expression above?
-        int diceOne = rand.nextInt(6) + 1;      // roll Dice 1
-        int diceTwo = rand.nextInt(6) + 1;      // roll Dice 2
-        // is it important that it's a 'diceResult' or are we talking about the 'steps' here?
-        int diceResult = diceOne + diceTwo;     // result of Dices
+        int diceOne = rand.nextInt(1, 7);
+        int diceTwo = rand.nextInt(1, 7);
 
-        if (diceOne == diceTwo) {               // check if doubles
-            doubles++;                          // count doubles
-            move(diceResult);
-            if (doubles == 3) {                 // if roll 3 doubles go to Jail
+        if (diceOne == diceTwo) {
+            doubles++;
+            hasDouble = true;
+            move(diceOne + diceTwo);
+            if (doubles == 3) {
                 setInJail(true);
-                doubles = 0;                    // reset doubles
+                doubles = 0;
+                hasDouble = false;
             }
-        } else {                                // no double
-            move(diceResult);                   // move
-            doubles = 0;                        // reset doubles
+        } else {
+            move(diceOne + diceTwo);
+            hasDouble = false;
+            doubles = 0;
         }
     }
 
     public void checkMortgages() {
+        //if Player has to pay something, this method checks for Mortgages
     }
 
     public void drawChanceCard() {
+        // take ChanceCard
     }
 
     public void drawCommunityChestCard() {
+        // take CommunityCard
     }
 
     public void move(int n) {
+        //moves Player on the Board
     }
 
     public void payRent(Field field) {
@@ -77,7 +82,7 @@ public class Player {
 
     // Getter and Setter
     public String getName() {
-        if (name == null){
+        if (name == null) {
             return "";
         }
         return name;
@@ -143,13 +148,24 @@ public class Player {
         this.properties = properties;
     }
 
+    public boolean isHasDouble() {
+        return hasDouble;
+    }
+
+    public void setHasDouble(boolean hasDouble) {
+        this.hasDouble = hasDouble;
+    }
+
     /**
      * Use me to describe my function in the program instead of //.
      * So I also show up when you hover over the method.
+     *
      * @return e.g. <i>Tim $1500</i>
      */
     @Override
     public String toString() {
-        return name + " $" +money;
+        return name + " $" + money;
     }
+
+
 }

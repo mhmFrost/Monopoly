@@ -1,3 +1,4 @@
+import board.Board;
 import building.Hotel;
 import building.House;
 import fields.Field;
@@ -19,5 +20,7 @@ public class Main {
         System.out.println(street);
         street.sell(tim);
 
+        Board board = new Board();
+        board.printBoard();
     }
 }

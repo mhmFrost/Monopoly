@@ -1,14 +1,20 @@
 package board;
 
-import fields.Field;
+import fields.*;
 import player.Player;
+
+import java.util.Arrays;
 
 public class Board {
     private Field[] fields = new Field[40];
     private Player[] players = new Player[8];
 
 
-    private void setupBoard() {
+    public Board() {
+        setupBoard();
+    }
+
+    public void setupBoard() {
         String[] streets = {
                 "Mediterranean Avenue", "Brown",
                 "Baltic Avenue", "Brown",
@@ -32,6 +38,13 @@ public class Board {
                 "Pennsylvania Avenue", "Green",
                 "Park Place", "Blue",
                 "Boardwalk", "Blue"
+        };
+
+        String[] railroads = {
+          "Reading Railroad",
+          "Pennsylvania Railroad",
+          "B&O Railroad",
+          "Short Line",
         };
 
         int[] streetPrices = {
@@ -59,8 +72,39 @@ public class Board {
                 400
         };
 
-/*        for (int i = 0; i < streetPrices.length; i++) {
-            fields[i + 1] =
-        }*/
+
+        int streetCounter = 0;
+        int priceCounter = 0;
+        int railRoadCounter = 0;
+        for (int fieldID = 0; fieldID < fields.length; fieldID++) {
+            switch (fieldID) {
+                case 0 -> fields[fieldID] = new GoField();
+                case 2, 17, 33 -> fields[fieldID] = new CommunityChest();
+                case 4, 38 -> fields[fieldID] = new TaxField(fieldID % 4 == 0 ? "Income Tax" : "Luxury Tax");
+                case 5, 15, 25, 35 -> fields[fieldID] = new Trainstation(railroads[railRoadCounter++]);
+                case 7, 22, 36 -> fields[fieldID] = new ChanceField();
+                case 10 -> fields[fieldID] = new JailField();
+                case 12, 28 -> fields[fieldID] = new ServiceField(fieldID % 12 == 0 ? "⚡️Electric Company " : "💧Water Works");
+                case 20 -> fields[fieldID] = new FreeParkingField();
+                case 30 -> fields[fieldID] = new GoToJailField();
+
+                default -> {
+                    fields[fieldID] = new Street(streets[streetCounter], streets[streetCounter + 1], streetPrices[priceCounter++]);
+                    streetCounter += 2;
+                }
+            }
+        }
+    }
+
+    public Field[] getFields() {
+        return fields;
+    }
+
+    public Street getStreetByName(String streetName) {
+        return (Street) Arrays.stream(fields).filter(f -> f.name() == streetName).toList().get(0);
+    }
+
+    public void printBoard() {
+        Arrays.stream(fields).forEach(System.out::println);
     }
 }

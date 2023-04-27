@@ -7,9 +7,14 @@ public abstract class Field {
     private String color;
     private boolean hasMortgage;
 
+    /**
+     * Abstract parent class of all fields in the game.
+     * @param name e.g. <i>Mediterranean Avenue</i>
+     * @param color e.g. <i>red</i>
+     */
     public Field(String name, String color) {
         this.name = name;
-        this.color = color;
+        this.color = color.toUpperCase();
         this.hasMortgage = false;
     }
 

@@ -11,6 +11,10 @@ import java.util.Random;
 public class CommunityChest extends Field {
     private ArrayList<Card> cards;
 
+    /**
+     * Initializes Community Chest with a given list of pre-defined Cards.
+     * @see Card
+     */
     public CommunityChest() {
         super("Community Chest", "none");
         cards = new ArrayList<>(List.of(
@@ -37,13 +41,31 @@ public class CommunityChest extends Field {
         ));
     }
 
+    /**
+     * Gets a random Card from this Community Chest.
+     * @return Card
+     * @see Card
+     */
     public Card getCard() {
         Random random = new Random();
         int x = random.nextInt(1, cards.size());
         return cards.get(x);
-        //TODO: Maybe remove Card from deck when drawn?
     }
 
+    /**
+     * Prints all Community Chest cards to the console<br><br>
+     * <i>Example Output:</i><br>
+     * Card 🃏<br>
+     * 💰 Wohoo!<br>
+     * Bank error in your favor — Collect $200<br>
+     * $200<br>
+     *<br>
+     * Card 🃏<br>
+     * 💵 Oh no!<br>
+     * Doctor's fee — Pay $50<br>
+     * $-50<br>
+     * ...
+     */
     public void printAllCards() {
         cards.stream().forEach(System.out::println);
     }

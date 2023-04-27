@@ -1,10 +1,7 @@
 package card;
 
 import player.Player;
-
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 public class Card {
     private String title;
@@ -17,6 +14,8 @@ public class Card {
      * @param title "Congratulations"
      * @param message "Banking error: collect $200"
      * @param money 200 | value can be positive or negative
+     * @see fields.CommunityChest
+     * @see fields.ChanceField
      */
     public Card(String title, String message, int money) {
         this.title = title;
@@ -29,6 +28,8 @@ public class Card {
      * @param title "Oops"
      * @param message "You're going to jail..."
      * @param function player::goToJail
+     * @see fields.CommunityChest
+     * @see fields.ChanceField
      */
     public Card(String title, String message, Consumer<Integer> function, int n) {
         this.title = title;

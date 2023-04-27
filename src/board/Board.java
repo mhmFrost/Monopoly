@@ -4,12 +4,16 @@ import fields.*;
 import player.Player;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Board {
     private Field[] fields = new Field[40];
     private Player[] players = new Player[8];
 
 
+    /**
+     * Initializes game board with 40 spaces in its US version of <i>Monopoly</i>.
+     */
     public Board() {
         setupBoard();
     }
@@ -97,28 +101,88 @@ public class Board {
         }
     }
 
+    /**
+     * Gets all fields on the board and returns them as Field[].
+     * @return Field[]
+     * @see Field
+     * @see Street
+     * @see Trainstation
+     * @see ServiceField
+     * @see TaxField
+     * @see CommunityChest
+     * @see ChanceField
+     */
     public Field[] getFields() {
         return fields;
     }
 
+    /**
+     * Get a Street-object by a given name.
+     * @param streetName e.g. <i>Mediterranean Avenue</i>
+     * @return Street-object
+     * @see Street
+     */
     public Street getStreetByName(String streetName) {
         return (Street) Arrays.stream(fields).filter(f -> f.name().equals(streetName)).toList().get(0);
     }
 
+    /**
+     * Returns all streets on the board as Street[].
+     * @return Street[]
+     * @see Street
+     */
     public Street[] getAllStreets() {
         return (Street[]) Arrays.stream(fields).filter(f -> f instanceof Street).toArray();
     }
 
+    /**
+     * Returns an array of all streets that have the same color.
+     * @param color e.g. <i>red</i>
+     * @return Street[]
+     */
     public Street[] getAllStreetsOfOneColor(String color) {
         Object[] temp = Arrays.stream(fields).filter(f -> f instanceof Street && f.color().toLowerCase().equals(color.toLowerCase())).toArray();
+
         Street[] streets = new Street[temp.length];
         for (int i = 0; i < temp.length; i++) {
             streets[i] = (Street) temp[i];
         }
+
         return streets;
     }
 
+    /**
+     * Prints entire board to console, with each space being represented on a line.<br><br>
+     * <i>Example Output:</i><br>
+     * 🚀GO<br>
+     * Mediterranean Avenue,Brown,60<br>
+     * ♦️Community Chest<br>
+     * Baltic Avenue,Brown,60<br>
+     * 🏦Income Tax<br>
+     * 🚂Reading Railroad<br>
+     * ...
+     */
     public void printBoard() {
         Arrays.stream(fields).forEach(System.out::println);
+    }
+
+    /**
+     * Lists all streets of a given color.<br><br>
+     * <i>Example Output:</i><br>
+     * BROWN 🏘<br>
+     * -	Mediterranean Avenue,Brown,60,Tim,[🏠]<br>
+     * -	Baltic Avenue,Brown,60,Tim,<br>
+     * @param color "blue"
+     */
+    public void printStreetsOfOneColor(String color) {
+        Street[] neighborhood = getAllStreetsOfOneColor(color);
+
+        String output = "\n" + color.toUpperCase() + " 🏘\n-\t";
+        output += Arrays
+                .stream(neighborhood)
+                .map(Street::toString)
+                .collect(Collectors.joining("\n-\t"));
+
+        System.out.println(output);
     }
 }

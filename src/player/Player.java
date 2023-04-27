@@ -4,6 +4,8 @@ import fields.Field;
 import fields.TaxField;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Player {
@@ -12,7 +14,7 @@ public class Player {
     private int score = 0;
     private boolean isInJail = false;
     private String figurine = "";
-    private Field[] properties;
+    private List<Field> properties = new ArrayList<>();
     private int doubles = 0;
     private int money = 1500;
     private boolean hasDouble = false;
@@ -55,9 +57,18 @@ public class Player {
             doubles = 0;
         }
     }
-
+    /**
+     * checkMoney
+     * <ul>
+     *     <li>returns True if Player has enough Money</li>
+     *     <li>returns False if Player has not enough Money</li>
+     * </ul>
+     */
+    public boolean checkMoney(int n){
+        return money - n > 0;
+    }
     public void checkMortgages() {
-        //if Player has to pay something, this method checks for Mortgages
+        //if Player has to pay something and no Money, this method checks for Mortgages
     }
 
     public void drawChanceCard() {
@@ -69,7 +80,7 @@ public class Player {
     }
 
     public void move(int n) {
-        //moves Player on the Board
+
     }
 
     public void payRent(Field field) {
@@ -140,11 +151,11 @@ public class Player {
         this.doubles = doubles;
     }
 
-    public Field[] getProperties() {
+    public List<Field> getProperties() {
         return properties;
     }
 
-    public void setProperties(Field[] properties) {
+    public void setProperties(List<Field> properties) {
         this.properties = properties;
     }
 

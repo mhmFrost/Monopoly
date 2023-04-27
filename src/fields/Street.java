@@ -73,7 +73,20 @@ public class Street extends Field {
         return buildings.size() < 4;
     }
 
-    //@TODO make evenBuilt boolean min und max ist entweder gleich oder BebauteGebäudeAnzahlAufStrasse + 1 <= max-Wert
+    //@TODO make evenBuilt boolean min und max ist entweder gleich oder BebauteGebäudeAnzahlAufStrasse + 1 <= max-Wert [14:59] Maximilian Steck
+    //Straße 1 🏠
+    //Straße 2 🏠
+    //Straße 3 🏠
+    //min 1
+    //max 1
+    //Straße 1 🏠
+    //Straße 2 🏠🏠(🏠)
+    //Straße 3 🏠
+    //min 1
+    //max 2
+    //if (straße 2.getBuildings.size() + 1 <= max) 
+    //{return true}
+    //return false
     public boolean evenBuilt(Board board) {
 
         return true;
@@ -96,7 +109,6 @@ public class Street extends Field {
      *     <li>build Building on Street possibilities House or Hotel </li>
      * </ul>
      */
-    //TODO evenbuilt noch einfügen
     public void build(Building building, Board board) {
         if (hasEmptySlot() && checkOwner(board) && owner.checkMoney(buildPrice)) {
             buildings.add(building);

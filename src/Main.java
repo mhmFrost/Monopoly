@@ -1,6 +1,8 @@
 import board.Board;
 import building.Hotel;
 import building.House;
+import fields.ChanceField;
+import fields.CommunityChest;
 import fields.Field;
 import fields.Street;
 import player.Player;
@@ -22,5 +24,6 @@ public class Main {
 
         Board board = new Board();
         board.printBoard();
+        ((CommunityChest)board.getFields()[2]).printAllCards();
     }
 }

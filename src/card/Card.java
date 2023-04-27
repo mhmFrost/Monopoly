@@ -2,13 +2,15 @@ package card;
 
 import player.Player;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public class Card {
     private String title;
     private String message;
-    private int money;
-    private Function<Void, Void> action;
+    private int money = 0;
+    private Object action;
 
     /**
      * Creates a card, where a player can win or loose money, if drawn.
@@ -26,18 +28,25 @@ public class Card {
      * Creates a card, where a player can be sent to jail, moved or earn a ticket out of jail, if drawn.
      * @param title "Oops"
      * @param message "You're going to jail..."
-     * @param action player::goToJail
+     * @param function player::goToJail
      */
-    public Card(String title, String message, Function<Void, Void> action) {
+    public Card(String title, String message, Consumer<Integer> function, int n) {
         this.title = title;
         this.message = message;
-        this.action = action;
-
-        this.action.apply(null);
+        function.accept(n);
     }
 
     public void activate(Player player) {
         int currentBalance = player.getMoney();
         player.setMoney(currentBalance + money);
+    }
+
+    @Override
+    public String toString() {
+        return  "Card 🃏\n"
+                + title + "\n"
+                + message + "\n"
+                + (money != 0 ? "$" + money + "\n" : "")
+                + (action != null ? action : "");
     }
 }

@@ -1,6 +1,7 @@
 package player;
 
 import fields.Field;
+import fields.Street;
 import fields.TaxField;
 
 
@@ -30,6 +31,18 @@ public class Player {
         this.color = color;
     }
 
+    public void addProperty(Field field){
+        properties.add(field);
+    }
+    public void removeProperty(String streetname){
+        Field field = null;
+        for (Field property : properties) {
+            if (property.name().toLowerCase().equals(streetname.toLowerCase())){
+                field = property;
+            }
+        }
+        properties.remove(field);
+    }
     public boolean buy(int price) {
         if (checkMoney(price)) {
             money -= price;

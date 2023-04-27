@@ -19,6 +19,7 @@ public class Street extends Field {
     public Street(String name, String color, int price) {
         super(name, color);
         this.price = price;
+        determineBuildPrice();
     }
 
     @Override
@@ -51,12 +52,11 @@ public class Street extends Field {
     }
 
     //@TODO make checkOwner boolean nur wenn alle Straßen einer Farbe dem Spiel der bauen will gehören
-    public boolean checkOwner(Board board) {
+    public boolean ownEntireNeighborhood(Board board) {
         boolean checkOwner = true;
         Street[] currentBoard = board.getAllStreetsOfOneColor(color());
-        System.out.println(Arrays.toString(currentBoard));
         for (Street street : currentBoard) {
-            if(street.owner == null || street.owner != owner){
+            if (street.owner == null || street.owner != owner) {
                 checkOwner = false;
             }
         }
@@ -73,23 +73,23 @@ public class Street extends Field {
         return buildings.size() < 4;
     }
 
-    //@TODO make evenBuilt boolean min und max ist entweder gleich oder BebauteGebäudeAnzahlAufStrasse + 1 <= max-Wert [14:59] Maximilian Steck
-    //Straße 1 🏠
-    //Straße 2 🏠
-    //Straße 3 🏠
-    //min 1
-    //max 1
-    //Straße 1 🏠
-    //Straße 2 🏠🏠(🏠)
-    //Straße 3 🏠
-    //min 1
-    //max 2
-    //if (straße 2.getBuildings.size() + 1 <= max) 
-    //{return true}
-    //return false
+    /**
+     * evenly Built
+     * checks if the min & max Buildingnumber of each Street is equal or new build + 1 is not larger than max
+     * @param board current board
+     * @return boolean
+     */
     public boolean evenBuilt(Board board) {
-
-        return true;
+        boolean evenBuilt = false;
+        Street[] neighborhood = board.getAllStreetsOfOneColor(color());
+        int max = Arrays.stream(neighborhood).mapToInt(s -> s.getBuildings().size()).max().orElse(0);
+        int min = Arrays.stream(neighborhood).mapToInt(s -> s.getBuildings().size()).min().orElse(0);
+        if (min == max) {
+            evenBuilt = true;
+        } else {
+            evenBuilt = this.getBuildings().size() + 1 <= max;
+        }
+        return evenBuilt;
     }
 
     /**
@@ -110,7 +110,22 @@ public class Street extends Field {
      * </ul>
      */
     public void build(Building building, Board board) {
-        if (hasEmptySlot() && checkOwner(board) && owner.checkMoney(buildPrice)) {
+        if (!hasEmptySlot()){
+            System.out.println(this.name() + " has no space left to build!");
+        }
+        if (!ownEntireNeighborhood(board)){
+            System.out.println(owner.getName() + " doesnt own all required Streets in the Neighborhood");
+        }
+        if (!owner.checkMoney(buildPrice)){
+            System.out.println(owner.getName() +  " doesnt have enough money!");
+        }
+        if (!evenBuilt(board)){
+            System.out.println(this.name() + " has to be even build");
+        }
+        if (hasEmptySlot()
+                && ownEntireNeighborhood(board)
+                && owner.checkMoney(buildPrice)
+                && evenBuilt(board)) {
             buildings.add(building);
             owner.buy(buildPrice);
             System.out.println(this);
@@ -130,6 +145,7 @@ public class Street extends Field {
             if (newOwner.buy(price)) {
                 this.setOwner(newOwner);
                 System.out.println(newOwner.getName() + " has bought " + this.name());
+                newOwner.addProperty(this);
             }
         }
         if (!newOwner.checkMoney(price)) {

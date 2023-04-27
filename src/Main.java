@@ -19,6 +19,9 @@ public class Main {
         board.getStreetByName("Mediterranean Avenue").build(new House(),board);
         board.getStreetByName("Baltic Avenue").sell(tim);
         board.getStreetByName("Mediterranean Avenue").build(new House(),board);
+        board.getStreetByName("Mediterranean Avenue").build(new House(),board);
+        board.getStreetByName("Baltic Avenue").build(new House(),board);
+        board.getStreetByName("Mediterranean Avenue").build(new House(),board);
 
     }
 }

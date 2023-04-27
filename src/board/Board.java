@@ -109,6 +109,10 @@ public class Board {
         return (Street[]) Arrays.stream(fields).filter(f -> f instanceof Street).toArray();
     }
 
+    public Street[] getAllStreetsOfOneColor(String color) {
+        return (Street[]) Arrays.stream(fields).filter(f -> f instanceof Street && f.color().toLowerCase().equals(color.toLowerCase())).toArray();
+    }
+
     public void printBoard() {
         Arrays.stream(fields).forEach(System.out::println);
     }

@@ -101,7 +101,7 @@ public class Board {
     }
 
     public Street getStreetByName(String streetName) {
-        return (Street) Arrays.stream(fields).filter(f -> f.name() == streetName).toList().get(0);
+        return (Street) Arrays.stream(fields).filter(f -> f.name().equals(streetName)).toList().get(0);
     }
 
     public void printBoard() {

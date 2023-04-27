@@ -110,7 +110,12 @@ public class Board {
     }
 
     public Street[] getAllStreetsOfOneColor(String color) {
-        return (Street[]) Arrays.stream(fields).filter(f -> f instanceof Street && f.color().toLowerCase().equals(color.toLowerCase())).toArray();
+        Object[] temp = Arrays.stream(fields).filter(f -> f instanceof Street && f.color().toLowerCase().equals(color.toLowerCase())).toArray();
+        Street[] streets = new Street[temp.length];
+        for (int i = 0; i < temp.length; i++) {
+            streets[i] = (Street) temp[i];
+        }
+        return streets;
     }
 
     public void printBoard() {

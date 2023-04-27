@@ -7,6 +7,8 @@ import fields.Field;
 import fields.Street;
 import player.Player;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         Player tim = new Player("Tim", "Orange");
@@ -24,6 +26,6 @@ public class Main {
 
         Board board = new Board();
         board.printBoard();
-        ((CommunityChest)board.getFields()[2]).printAllCards();
+        System.out.println(Arrays.toString(board.getAllStreetsOfOneColor("red")));
     }
 }

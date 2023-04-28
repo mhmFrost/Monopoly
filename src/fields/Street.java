@@ -52,9 +52,9 @@ public class Street extends Field {
     }
 
     public void takeOutMortgage() {
-        int mortgage = owner.getMoney() + (int) (price * 0.5);
+        int mortgage = (int) (price * 0.5);
         if (!hasMortgage()) {
-            owner.setMoney(mortgage);
+            owner.setMoney(owner.getMoney() + mortgage);
             super.setHasMortgage(true);
             System.out.println(owner + " has got $" + mortgage + " from mortgage for " + this);
         }

@@ -39,5 +39,6 @@ public class Main {
         System.out.println(tim);
 
         tim.drawCard(board.getFields()[2]);
+        board.getStreetByName("Mediterranean Avenue").takeOutMortgage();
     }
 }

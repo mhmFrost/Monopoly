@@ -57,7 +57,7 @@ public class ServiceField extends Field {
     public String toString() {
         return (hasMortgage() ? super.name().replace("💧", "🚧").replace("⚡️", "🚧") : super.name())
                 + (owner != null ? " 🔑" + owner.getName() : "")
-                + (hasMortgage() ? "💸" + ((int) ((price * 0.5) * 1.1)) : "");
+                + (hasMortgage() ? " 💸$" + ((int) ((price * 0.5) * 1.1)) : "");
 
     }
 }

@@ -33,7 +33,7 @@ public class Street extends Field {
                 + " $" + getPrice()
                 + (owner != null ? " 🔑" + owner.getName() + " " : "")
                 + (buildings.size() > 0 ? buildings : "")
-                + (hasMortgage() ? "💸" + ((int) ((price * 0.5) * 1.1)) : "");
+                + (hasMortgage() ? " 💸$" + ((int) ((price * 0.5) * 1.1)) : "");
     }
 
     private String getColorEmoji() {

@@ -70,7 +70,7 @@ public class ServiceField extends Field {
         this.owner = newOwner;
     }
 
-    private boolean hasOwner() {
+    public boolean hasOwner() {
         return owner != null;
     }
     @Override

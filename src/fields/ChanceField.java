@@ -25,7 +25,7 @@ public class ChanceField extends Field {
 //                new Card("💰 Wohoo!", "Bank pays you dividend of $50", 50),
 //                new Card("💰 Wohoo!", "Get Out of Jail Free", 50),
 //                new Card("💵 Oh no!", "Pay poor tax of $15", -15),
-                new Card("♟ Oh no!", "Go Back 3 Spaces", (Player player) -> System.out.println("moved back")),
+                new Card("♟ Oh no!", "Go Back 3 Spaces", (Player player) -> player.setPosition(player.getPosition() - 3)),
                 //new Card("💵 Oh no!", "Go to Jail–Go directly to Jail–Do not pass Go, do not collect $200", 0),
                 //new Card("💵 Oh no!", "Make general repairs on all your property–For each house pay $25–For each hotel $100", 0),
                 new Card("💵 Oh no!", "Pay poor tax of $15", -15),

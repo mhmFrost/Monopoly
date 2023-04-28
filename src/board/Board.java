@@ -3,7 +3,9 @@ package board;
 import fields.*;
 import player.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Board {
@@ -126,6 +128,19 @@ public class Board {
         }
     }
 
+    public void add(Player player){
+        for (int i = 0; i < players.length; i++) {
+            if (players[i] == null) {
+                players[i] = player;
+                break;
+            }
+        }
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
     /**
      * Gets all fields on the board and returns them as Field[].
      *
@@ -213,7 +228,13 @@ public class Board {
      */
     public void printBoard() {
         for (int i = 0; i < fields.length; i++) {
-            System.out.println(fields[i] + (Arrays.stream(players).filter(player -> player.getPosition() == i)));
+            List<Player> currentPlayersAtPositionI = new ArrayList<>();
+            for (Player player : players) {
+                if (player != null && player.getPosition() == i){
+                    currentPlayersAtPositionI.add(player);
+                }
+            }
+            System.out.println(fields[i] + " " + currentPlayersAtPositionI.stream().map(Player::getFigurine).collect(Collectors.joining(" ")));
         }
     }
 

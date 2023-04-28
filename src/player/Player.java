@@ -28,9 +28,10 @@ public class Player implements Actionable {
      * @param name  e.g. <i>Tim</i>
      * @param color e.g. <i>red</i>
      */
-    public Player(String name, String color) {
+    public Player(String name, String color, String figurine) {
         this.name = name;
         this.color = color;
+        this.figurine = figurine;
     }
 
     public void addProperty(Field field) {
@@ -120,16 +121,20 @@ public class Player implements Actionable {
         return drawnCard;
     }
 
-    public void move(int n) {
-        int startPosition = position;
+    public int move(int n) {
         int endPosition = position + n % 39;
 
-        while (startPosition != endPosition) {
-            position++;
-            if(position > 38){
-                position = 0;
-            }
+        if (position == endPosition) {
+            return 0;
         }
+
+        position++;
+        if (position > 38) {
+            position = 0;
+            new GoField().action(this);
+        }
+
+        return move(endPosition - position);
     }
 
     public void goToJail() {

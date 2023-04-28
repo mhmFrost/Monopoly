@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Player {
+public class Player implements Actionable{
     private String name = "";
     private String color = "";
     private int score = 0;
@@ -146,6 +146,9 @@ public class Player {
         if (field instanceof ServiceField) {
             rent = diceSum * ((ServiceField) field).getRent();
         }
+        if (field.hasMortgage()) {
+            rent = 0;
+        }
         return rent;
     }
 
@@ -262,5 +265,8 @@ public class Player {
         return name + " $" + money;
     }
 
+    @Override
+    public void action(Player player) {
 
+    }
 }

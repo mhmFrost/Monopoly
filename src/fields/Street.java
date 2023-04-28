@@ -271,7 +271,9 @@ public class Street extends Field {
     }
 
     public int getRent() {
-        // TODO: Add hotel rent later
+        if (buildings.stream().filter(b -> b.equals("🏩")).count() == 1) {
+            return rents[rents.length - 1];
+        }
         return rents[buildings.size()];
     }
 

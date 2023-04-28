@@ -2,8 +2,11 @@ package fields;
 
 import board.Board;
 import building.Building;
+import building.Hotel;
+import building.House;
 import player.Player;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,7 +81,7 @@ public class Street extends Field {
             demolish();
             owner.setMoney((int) (owner.getMoney() + buildPrice * 0.5));
             System.out.println(this);
-        } else{
+        } else {
             System.out.println("There is no building to sell.");
         }
     }
@@ -163,31 +166,52 @@ public class Street extends Field {
      */
     public void build(Building building, Board board) {
         String colorEmoji = getColorEmoji();
+        Street[] neighborhood = board.getAllStreetsOfOneColor(color());
+        boolean streetsAllHave4Houses = true;
 
-        if (!hasEmptySlot()) {
-            System.out.println(this.name() + " has no space left to build! ❌");
+        for (Street street : neighborhood) {
+            if (street.hasEmptySlot() && !street.getBuildings().contains("🏩")) {
+                streetsAllHave4Houses = false;
+            }
+        }
+        if (building instanceof Hotel && streetsAllHave4Houses && owner.checkMoney(buildPrice)) {
+            while (buildings.size() > 0) {
+                demolish();
+            }
+            finalBuild(building);
+        }
+        if (building instanceof Hotel && !streetsAllHave4Houses) {
+            System.out.println("neighborhood " + colorEmoji + " doesn't have enough houses built! ❌");
         }
 
-        if (!ownEntireNeighborhood(board)) {
-            System.out.println(owner.getName() + " doesn't own all required streets in this neighborhood " + colorEmoji + " ❌");
-        }
+        if (building instanceof House) {
+            if (!hasEmptySlot()) {
+                System.out.println(this.name() + " has no space left to build! ❌");
+            }
 
+            if (!evenBuilt(board)) {
+                System.out.println(this.name() + " has to be evenly built across all streets in neighborhood " + colorEmoji + " ❌");
+            }
+
+            if (hasEmptySlot()
+                    && ownEntireNeighborhood(board)
+                    && owner.checkMoney(buildPrice)
+                    && evenBuilt(board)) {
+                finalBuild(building);
+            }
+        }
         if (!owner.checkMoney(buildPrice)) {
             System.out.println(owner.getName() + " doesnt have enough money! ❌");
         }
-
-        if (!evenBuilt(board)) {
-            System.out.println(this.name() + " has to be evenly built across all streets in neighborhood " + colorEmoji + " ❌");
+        if (!ownEntireNeighborhood(board)) {
+            System.out.println(owner.getName() + " doesn't own all required streets in this neighborhood " + colorEmoji + " ❌");
         }
+    }
 
-        if (hasEmptySlot()
-                && ownEntireNeighborhood(board)
-                && owner.checkMoney(buildPrice)
-                && evenBuilt(board)) {
-            buildings.add(building);
-            owner.buy(buildPrice);
-            System.out.println(this);
-        }
+    private void finalBuild(Building building) {
+        buildings.add(building);
+        owner.buy(buildPrice);
+        System.out.println(this);
     }
 
     /**

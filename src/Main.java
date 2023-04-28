@@ -50,5 +50,13 @@ public class Main {
         System.out.println(tim);
         board.getStreetByName("Mediterranean Avenue").sellBuilding();
 
+
+        System.out.println(max);
+        board.getTrainstationByName("Reading Railroad").takeOutMortgage();
+
+        board.getTrainstationByName("Reading Railroad").paybackMortgage();
+
+
+
     }
 }

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Player implements Actionable{
+public class Player implements Actionable {
     private String name = "";
     private String color = "";
     private int score = 0;
@@ -19,6 +19,7 @@ public class Player implements Actionable{
     private int money = 1500;
     private boolean hasDouble = false;
     private int diceSum = 0;
+    private List<Card> cards = new ArrayList<>();
 
     /**
      * Initializes a new player with a given name, color and starting amount of $1,500 in the bank.
@@ -40,6 +41,7 @@ public class Player implements Actionable{
         for (Field property : properties) {
             if (property.name().toLowerCase().equals(streetname.toLowerCase())) {
                 field = property;
+                break;
             }
         }
         properties.remove(field);
@@ -60,7 +62,7 @@ public class Player implements Actionable{
      *     <li>If <b>3 doubles</b> occur in a row, the player is being <b>sent to jail</b>.</li>
      * </ul>
      */
-    public void rollDice() {
+    public int rollDice() {
         Random rand = new Random();
         int diceOne = rand.nextInt(1, 7);
         int diceTwo = rand.nextInt(1, 7);
@@ -69,7 +71,6 @@ public class Player implements Actionable{
             doubles++;
             hasDouble = true;
             diceSum = diceOne + diceTwo;
-            move(diceSum);
             if (doubles == 3) {
                 setInJail(true);
                 doubles = 0;
@@ -80,6 +81,7 @@ public class Player implements Actionable{
             hasDouble = false;
             doubles = 0;
         }
+        return diceSum;
     }
 
     /**
@@ -101,6 +103,11 @@ public class Player implements Actionable{
     }
 
     public void drawCard(Field field) {
+        Card drawnCard = determineCardTypeFrom(field);
+        drawnCard.activate(this);
+    }
+
+    private Card determineCardTypeFrom(Field field) {
         Card drawnCard = null;
         if (field instanceof ChanceField) {
             drawnCard = ((ChanceField) field).getCard();
@@ -109,18 +116,22 @@ public class Player implements Actionable{
         if (field instanceof CommunityChest) {
             drawnCard = ((CommunityChest) field).getCard();
         }
-
-        drawnCard.activate(this);
+        return drawnCard;
     }
 
     public void move(int n) {
 
     }
 
+    public void goToJail() {
+        System.out.println("😢Oh no, "+ name +", you're going to jail.");
+        this.isInJail = true;
+    }
+
     public void payRent(Field field) {
         if (!field.hasMortgage()) {
-            int rent = getRentFromField(field);
-            Player owner = getOwnerFromField(field);
+            int rent = getRentOf(field);
+            Player owner = getOwnerOf(field);
 
             setMoney(money - rent);
             owner.setMoney(owner.getMoney() + rent);
@@ -128,15 +139,20 @@ public class Player implements Actionable{
             System.out.println(this.name + " paid $" + rent + " in rent to " + owner.name);
 
             //TODO: askForTakingOutMortgages or SellingHouses or Trade Streets
+            //TODO: getProperties() -> print with mortgage next to Straße 1 $30, Straße 2, $100
+            //TODO: if getProperties() buildings.size()>0 -> print houses with sell price (50% of buildprice) in each street
             if (money < 0) {
+
                 System.out.println("Oops, " + name + " has no money left: $" + money);
                 System.out.println("You should take out a mortgage, sell houses or streets.");
             }
         }
     }
 
-    private int getRentFromField(Field field) {
+    private int getRentOf(Field field) {
+
         int rent = 0;
+
         if (field instanceof Street) {
             rent = ((Street) field).getRent();
         }
@@ -146,13 +162,15 @@ public class Player implements Actionable{
         if (field instanceof ServiceField) {
             rent = diceSum * ((ServiceField) field).getRent();
         }
+
         if (field.hasMortgage()) {
             rent = 0;
         }
+
         return rent;
     }
 
-    private Player getOwnerFromField(Field field) {
+    private Player getOwnerOf(Field field) {
         Player owner = null;
         if (field instanceof Street) {
             owner = ((Street) field).getOwner();

@@ -5,14 +5,14 @@ import building.Building;
 import building.Hotel;
 import building.House;
 import player.Player;
+import services.EmojiConverter;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Street extends Field {
-
     private int price;
     private int buildPrice;
     private List<Building> buildings = new ArrayList<>();
@@ -28,31 +28,16 @@ public class Street extends Field {
 
     @Override
     public String toString() {
-        String colorEmoji = getColorEmoji();
 
         return (hasMortgage() ? "🚧" : "🏘")
                 + super.name()
-                + " " + colorEmoji
+                + " " + super.colorEmoji()
                 + " $" + getPrice()
                 + (owner != null ? " 🔑" + owner.getName() + " " : "")
-                + (buildings.size() > 0 ? buildings : "")
+                + buildings.stream().map(Object::toString).collect(Collectors.joining())
                 + (hasMortgage() ? " 💸$" + ((int) ((price * 0.5) * 1.1)) : "");
     }
 
-    private String getColorEmoji() {
-        String colorEmoji = "";
-        switch (super.color().toLowerCase()) {
-            case "brown" -> colorEmoji = "🟤";
-            case "blue" -> colorEmoji = "🔵";
-            case "green" -> colorEmoji = "🟢";
-            case "orange" -> colorEmoji = "🟠";
-            case "pink" -> colorEmoji = "🌸";
-            case "red" -> colorEmoji = "🔴";
-            case "yellow" -> colorEmoji = "🟡";
-            case "lightblue" -> colorEmoji = "🌐";
-        }
-        return colorEmoji;
-    }
 
     public void takeOutMortgage() {
         int mortgage = (int) (price * 0.5);
@@ -61,7 +46,7 @@ public class Street extends Field {
             super.setHasMortgage(true);
             System.out.println(owner + " has got $" + mortgage + " from mortgage for " + this);
         } else {
-            System.out.println(this + " is not empty, remove buildings first.");
+            System.out.println(this + " is not empty, remove buildings first ❌");
         }
     }
 
@@ -78,11 +63,14 @@ public class Street extends Field {
 
     public void sellBuilding() {
         if (buildings.size() > 0) { // Todo check the possibility of evenbuilt? we should implement an other method here
+            Building temp = buildings.get(buildings.size()-1);
             demolish();
-            owner.setMoney((int) (owner.getMoney() + buildPrice * 0.5));
+            int sellValue = (int) (buildPrice * 0.5);
+            owner.setMoney(owner.getMoney() + sellValue);
+            System.out.println("Sold " + temp + " for $" + sellValue + " on " + this);
             System.out.println(this);
         } else {
-            System.out.println("There is no building to sell.");
+            System.out.println("There is no building to sell ❌");
         }
     }
 
@@ -168,7 +156,6 @@ public class Street extends Field {
      * </ul>
      */
     public void build(Building building, Board board) {
-        String colorEmoji = getColorEmoji();
         Street[] neighborhood = board.getAllStreetsOfOneColor(color());
         boolean streetsAllHave4Houses = true;
         for (Street street : neighborhood) {
@@ -183,8 +170,8 @@ public class Street extends Field {
             }
             finalBuild(building);
         }
-        if (building instanceof Hotel && !streetsAllHave4Houses) {
-            System.out.println("neighborhood " + colorEmoji + " doesn't have enough houses built! ❌");
+        if (building instanceof Hotel && !streetsAllHave4Houses && !hasMortgage()) {
+            System.out.println("neighborhood " + super.colorEmoji() + " doesn't have enough houses built! ❌");
         }
 
         if (building instanceof House) {
@@ -193,13 +180,14 @@ public class Street extends Field {
             }
 
             if (!evenBuilt(board)) {
-                System.out.println(this.name() + " has to be evenly built across all streets in neighborhood " + colorEmoji + " ❌");
+                System.out.println(this.name() + " has to be evenly built across all streets in neighborhood " + super.colorEmoji() + " ❌");
             }
 
             if (hasEmptySlot()
                     && ownEntireNeighborhood(board)
                     && owner.checkMoney(buildPrice)
-                    && evenBuilt(board)) {
+                    && evenBuilt(board)
+                    && !hasMortgage()) {
                 finalBuild(building);
             }
         }
@@ -207,7 +195,10 @@ public class Street extends Field {
             System.out.println(owner.getName() + " doesnt have enough money! ❌");
         }
         if (!ownEntireNeighborhood(board)) {
-            System.out.println(owner.getName() + " doesn't own all required streets in this neighborhood " + colorEmoji + " ❌");
+            System.out.println(owner.getName() + " doesn't own all required streets in this neighborhood " + super.colorEmoji() + " ❌");
+        }
+        if (hasMortgage()) {
+            System.out.println("Can't build because of mortgage on property "  + this + " ❌");
         }
     }
 
@@ -225,8 +216,6 @@ public class Street extends Field {
      * </ul>
      */
     public void sell(Player newOwner) {
-        String colorEmoji = getColorEmoji();
-
         if (!hasOwner() && newOwner.checkMoney(price)) {
             if (newOwner.buy(price)) {
 
@@ -237,7 +226,7 @@ public class Street extends Field {
                         newOwner.getName()
                                 + " has bought "
                                 + this.name()
-                                + " " + colorEmoji
+                                + " " + super.colorEmoji()
                                 + " for $"
                                 + this.price
                 );
@@ -249,7 +238,7 @@ public class Street extends Field {
         }
 
         if (!hasOwner()) {
-            System.out.println(this.name() + " " + colorEmoji + " is already owned by " + owner.getName());
+            System.out.println(this.name() + " " + super.colorEmoji() + " is already owned by " + owner.getName());
         }
     }
 

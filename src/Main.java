@@ -28,6 +28,5 @@ public class Main {
         board.getStreetByName("Baltic Avenue").build(new Hotel(),board);
 
 
-
     }
 }

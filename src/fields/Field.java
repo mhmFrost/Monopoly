@@ -1,10 +1,12 @@
 package fields;
 
 import player.Player;
+import services.EmojiConverter;
 
 public abstract class Field {
     private String name;
     private String color;
+    private String colorEmoji;
     private boolean hasMortgage;
 
     /**
@@ -16,23 +18,28 @@ public abstract class Field {
         this.name = name;
         this.color = color.toUpperCase();
         this.hasMortgage = false;
+        this.colorEmoji = EmojiConverter.getColorEmoji(color);
     }
 
-    public void takeOutMortgage() {
-        this.hasMortgage = !hasMortgage;
-    };
     public void sell(Player newOwner) {
 
     };
 
-    public String name() {
-        return name;
+    public void action(Player player){
+
     }
 
     public String color() {
         return color;
     }
 
+    public String name() {
+        return name;
+    }
+
+    public String colorEmoji() {
+        return colorEmoji;
+    }
 
     public boolean hasMortgage() {
         return hasMortgage;

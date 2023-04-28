@@ -212,7 +212,9 @@ public class Board {
      * ...
      */
     public void printBoard() {
-        Arrays.stream(fields).forEach(System.out::println);
+        for (int i = 0; i < fields.length; i++) {
+            System.out.println(fields[i] + (Arrays.stream(players).filter(player -> player.getPosition() == i)));
+        }
     }
 
     /**

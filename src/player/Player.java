@@ -20,6 +20,7 @@ public class Player implements Actionable {
     private boolean hasDouble = false;
     private int diceSum = 0;
     private List<Card> cards = new ArrayList<>();
+    private int position = 0;
 
     /**
      * Initializes a new player with a given name, color and starting amount of $1,500 in the bank.
@@ -120,11 +121,19 @@ public class Player implements Actionable {
     }
 
     public void move(int n) {
+        int startPosition = position;
+        int endPosition = position + n % 39;
 
+        while (startPosition != endPosition) {
+            position++;
+            if(position > 38){
+                position = 0;
+            }
+        }
     }
 
     public void goToJail() {
-        System.out.println("😢Oh no, "+ name +", you're going to jail.");
+        System.out.println("😢Oh no, " + name + ", you're going to jail.");
         this.isInJail = true;
     }
 
@@ -198,6 +207,16 @@ public class Player implements Actionable {
     }
 
     // Getter and Setter
+
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     public String getName() {
         if (name == null) {
             return "";

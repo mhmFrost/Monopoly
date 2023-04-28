@@ -21,11 +21,13 @@ public class Main {
         board.getStreetByName("Mediterranean Avenue").build(new House(),board);
         board.getStreetByName("Baltic Avenue").build(new House(),board);
         board.getStreetByName("Mediterranean Avenue").build(new House(),board);
-
+        board.getStreetByName("Mediterranean Avenue").sellBuilding();
         tim.payTax(board.getFields()[4]);
 
         board.getTrainstationByName("Reading Railroad").sell(max);
         board.getTrainstationByName("Pennsylvania Railroad").sell(max);
+
+
 
 
         board.getServiceFieldByName("⚡️Electric Company").sell(max);
@@ -39,6 +41,14 @@ public class Main {
         System.out.println(tim);
 
         tim.drawCard(board.getFields()[2]);
+
+        board.getStreetByName("Mediterranean Avenue").sellBuilding();
+        System.out.println(tim);
         board.getStreetByName("Mediterranean Avenue").takeOutMortgage();
+        System.out.println(tim);
+        board.getStreetByName("Mediterranean Avenue").paybackMortgage();
+        System.out.println(tim);
+        board.getStreetByName("Mediterranean Avenue").sellBuilding();
+
     }
 }

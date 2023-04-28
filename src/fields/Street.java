@@ -53,10 +53,33 @@ public class Street extends Field {
 
     public void takeOutMortgage() {
         int mortgage = (int) (price * 0.5);
-        if (!hasMortgage()) {
+        if (!hasMortgage() && buildings.size() == 0) {
             owner.setMoney(owner.getMoney() + mortgage);
             super.setHasMortgage(true);
             System.out.println(owner + " has got $" + mortgage + " from mortgage for " + this);
+        } else {
+            System.out.println(this + " is not empty, remove buildings first.");
+        }
+    }
+
+    public void paybackMortgage() {
+        int paybackMortgage = (int) (price * 0.55); // half plus 10 %
+        if (hasMortgage()) {
+            owner.setMoney(owner.getMoney() - paybackMortgage);
+            super.setHasMortgage(false);
+            System.out.println(owner + " has paid back $" + paybackMortgage + " for " + this);
+        } else {
+            System.out.println("There is no mortgage on " + this);
+        }
+    }
+
+    public void sellBuilding() {
+        if (buildings.size() > 0) { // Todo check the possibility of evenbuilt? we should implement an other method here
+            demolish();
+            owner.setMoney((int) (owner.getMoney() + buildPrice * 0.5));
+            System.out.println(this);
+        } else{
+            System.out.println("There is no building to sell.");
         }
     }
 
@@ -99,6 +122,7 @@ public class Street extends Field {
     public boolean hasEmptySlot() {
         return buildings.size() < 4;
     }
+
 
     /**
      * evenly Built
@@ -223,6 +247,7 @@ public class Street extends Field {
         // TODO: Add hotel rent later
         return rents[buildings.size()];
     }
+
     public int[] getRents() {
         return rents;
     }

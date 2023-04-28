@@ -1,5 +1,6 @@
 package player;
 
+import card.Card;
 import fields.*;
 
 
@@ -94,15 +95,23 @@ public class Player {
     }
 
     public void checkMortgages() {
-        //if Player has to pay something and no Money, this method checks for Mortgages
+        List<Field> mortgagedProperties = properties.stream().filter(Field::hasMortgage).toList();
+        for (Field mp : mortgagedProperties) {
+            System.out.println(mp);
+        }
     }
 
-    public void drawChanceCard() {
-        // take ChanceCard
-    }
+    public void drawCard(Field field) {
+        Card drawnCard = null;
+        if (field instanceof ChanceField) {
+            drawnCard = ((ChanceField) field).getCard();
 
-    public void drawCommunityChestCard() {
-        // take CommunityCard
+        }
+        if (field instanceof CommunityChest) {
+            drawnCard = ((CommunityChest) field).getCard();
+        }
+
+        drawnCard.activate(this);
     }
 
     public void move(int n) {
@@ -110,33 +119,49 @@ public class Player {
     }
 
     public void payRent(Field field) {
-        int rent = 0;
-        Player owner = null;
+        if (!field.hasMortgage()) {
+            int rent = getRentFromField(field);
+            Player owner = getOwnerFromField(field);
 
-        // TODO: getRealRentsFrom rents array in each class.
+            setMoney(money - rent);
+            owner.setMoney(owner.getMoney() + rent);
+
+            System.out.println(this.name + " paid $" + rent + " in rent to " + owner.name);
+
+            //TODO: askForTakingOutMortgages or SellingHouses or Trade Streets
+            if (money < 0) {
+                System.out.println("Oops, " + name + " has no money left: $" + money);
+                System.out.println("You should take out a mortgage, sell houses or streets.");
+            }
+        }
+    }
+
+    private int getRentFromField(Field field) {
+        int rent = 0;
         if (field instanceof Street) {
             rent = ((Street) field).getRent();
-            owner = ((Street) field).getOwner();
         }
         if (field instanceof Trainstation) {
             rent = ((Trainstation) field).getRent();
-            owner = ((Trainstation) field).getOwner();
         }
         if (field instanceof ServiceField) {
             rent = diceSum * ((ServiceField) field).getRent();
+        }
+        return rent;
+    }
+
+    private Player getOwnerFromField(Field field) {
+        Player owner = null;
+        if (field instanceof Street) {
+            owner = ((Street) field).getOwner();
+        }
+        if (field instanceof Trainstation) {
+            owner = ((Trainstation) field).getOwner();
+        }
+        if (field instanceof ServiceField) {
             owner = ((ServiceField) field).getOwner();
         }
-
-        setMoney(money - rent);
-        owner.setMoney(owner.getMoney() + rent);
-
-        System.out.println(this.name + " paid $" + rent + " in rent to " + owner.name);
-
-        //TODO: askForTakingOutMortgages or SellingHouses or Trade Streets
-        if (money < 0) {
-            System.out.println("Oops, " + name + " has no money left: $" + money);
-            System.out.println("You should take out a mortgage, sell houses or streets.");
-        }
+        return owner;
     }
 
     public void payTax(Field field) {

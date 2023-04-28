@@ -57,7 +57,9 @@ public class Trainstation extends Field {
 
     @Override
     public String toString() {
-        return "🚂" + super.name()
-                + (owner != null ? " 🔑" + owner.getName() : "");
+        return  (hasMortgage() ? "🚧" : "🚂")
+                + super.name()
+                + (owner != null ? " 🔑" + owner.getName() : "")
+                + (hasMortgage() ? "💸" + ((int) ((price * 0.5) * 1.1)) : "");
     }
 }

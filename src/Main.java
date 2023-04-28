@@ -38,5 +38,6 @@ public class Main {
         System.out.println(max);
         System.out.println(tim);
 
+        tim.drawCard(board.getFields()[2]);
     }
 }

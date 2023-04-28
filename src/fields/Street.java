@@ -27,11 +27,13 @@ public class Street extends Field {
     public String toString() {
         String colorEmoji = getColorEmoji();
 
-        return "🏘" + super.name()
+        return (hasMortgage() ? "🚧" : "🏘")
+                + super.name()
                 + " " + colorEmoji
                 + " $" + getPrice()
                 + (owner != null ? " 🔑" + owner.getName() + " " : "")
-                + (buildings.size() > 0 ? buildings : "");
+                + (buildings.size() > 0 ? buildings : "")
+                + (hasMortgage() ? "💸" + ((int) ((price * 0.5) * 1.1)) : "");
     }
 
     private String getColorEmoji() {
@@ -213,6 +215,7 @@ public class Street extends Field {
         // TODO: Add hotel rent later
         return rents[buildings.size()];
     }
+
     public int[] getRents() {
         return rents;
     }

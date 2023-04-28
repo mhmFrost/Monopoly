@@ -40,6 +40,9 @@ public class Card {
     public void activate(Player player) {
         int currentBalance = player.getMoney();
         player.setMoney(currentBalance + money);
+
+        System.out.println(this);
+        System.out.println(player);
     }
 
     @Override

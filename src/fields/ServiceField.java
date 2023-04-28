@@ -4,7 +4,6 @@ import player.Player;
 
 public class ServiceField extends Field {
     private int price;
-
     private Player owner;
 
     public ServiceField(String name, int price) {
@@ -36,6 +35,15 @@ public class ServiceField extends Field {
         if (!hasOwner()) {
             System.out.println(this + " is already owned by " + owner.getName());
         }
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public int getRent() {
+        var size = owner.getProperties().stream().filter(s -> s instanceof ServiceField).count();
+        return size == 1 ? 4 : 10;
     }
 
     private void setOwner(Player newOwner) {

@@ -119,7 +119,7 @@ public class Board {
                 case 30 -> fields[fieldID] = new GoToJailField();
 
                 default -> {
-                    fields[fieldID] = new Street(streets[streetCounter], streets[streetCounter + 1], streetPrices[priceCounter++]);
+                    fields[fieldID] = new Street(streets[streetCounter], streets[streetCounter + 1], streetPrices[priceCounter], rents[priceCounter++]);
                     streetCounter += 2;
                 }
             }
@@ -175,7 +175,12 @@ public class Board {
      * @see Street
      */
     public Street[] getAllStreets() {
-        return (Street[]) Arrays.stream(fields).filter(f -> f instanceof Street).toArray();
+        Object[] temp = Arrays.stream(fields).filter(f -> f instanceof Street).toArray();
+        Street[] streets = new Street[temp.length];
+        for (int s = 0; s < streets.length; s++) {
+            streets[s] = (Street) temp[s];
+        }
+        return streets;
     }
 
     /**

@@ -113,18 +113,18 @@ public class Player {
         int rent = 0;
         Player owner = null;
 
-        // getRealRentsFrom rents array in each class.
+        // TODO: getRealRentsFrom rents array in each class.
         if (field instanceof Street) {
-            rent = 50;
-            owner = ((Street)field).getOwner();
+            rent = ((Street) field).getRent();
+            owner = ((Street) field).getOwner();
         }
         if (field instanceof Trainstation) {
-            rent = 25;
-            owner = ((Street)field).getOwner();
+            rent = ((Trainstation) field).getRent();
+            owner = ((Trainstation) field).getOwner();
         }
         if (field instanceof ServiceField) {
-            rent = diceSum * 4;
-            owner = ((Street)field).getOwner();
+            rent = diceSum * ((ServiceField) field).getRent();
+            owner = ((ServiceField) field).getOwner();
         }
 
         setMoney(money - rent);
@@ -229,8 +229,7 @@ public class Player {
     }
 
     /**
-     * Use me to describe my function in the program instead of //.
-     * So I also show up when you hover over the method.
+     * Returns player name with current balance.
      *
      * @return e.g. <i>Tim $1500</i>
      */

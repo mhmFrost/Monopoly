@@ -15,46 +15,17 @@ public class Main {
         board.printBoard();
 
         board.getStreetByName("Mediterranean Avenue").sell(tim);
-        board.getStreetByName("Mediterranean Avenue").build(new House(),board);
         board.getStreetByName("Baltic Avenue").sell(tim);
-        board.getStreetByName("Mediterranean Avenue").build(new House(),board);
         board.getStreetByName("Mediterranean Avenue").build(new House(),board);
         board.getStreetByName("Baltic Avenue").build(new House(),board);
         board.getStreetByName("Mediterranean Avenue").build(new House(),board);
-        board.getStreetByName("Mediterranean Avenue").sellBuilding();
-        tim.payTax(board.getFields()[4]);
-
-        board.getTrainstationByName("Reading Railroad").sell(max);
-        board.getTrainstationByName("Pennsylvania Railroad").sell(max);
-
-
-
-
-        board.getServiceFieldByName("⚡️Electric Company").sell(max);
-        System.out.println(max.getProperties());
-        System.out.println(tim.getProperties());
-
-        System.out.println(max);
-        System.out.println(tim);
-        tim.payRent(board.getServiceFieldByName("⚡️Electric Company"));
-        System.out.println(max);
-        System.out.println(tim);
-
-        tim.drawCard(board.getFields()[2]);
-
-        board.getStreetByName("Mediterranean Avenue").sellBuilding();
-        System.out.println(tim);
-        board.getStreetByName("Mediterranean Avenue").takeOutMortgage();
-        System.out.println(tim);
-        board.getStreetByName("Mediterranean Avenue").paybackMortgage();
-        System.out.println(tim);
-        board.getStreetByName("Mediterranean Avenue").sellBuilding();
-
-
-        System.out.println(max);
-        board.getTrainstationByName("Reading Railroad").takeOutMortgage();
-
-        board.getTrainstationByName("Reading Railroad").paybackMortgage();
+        board.getStreetByName("Baltic Avenue").build(new House(),board);
+        board.getStreetByName("Mediterranean Avenue").build(new House(),board);
+        board.getStreetByName("Baltic Avenue").build(new House(),board);
+        board.getStreetByName("Mediterranean Avenue").build(new House(),board);
+        board.getStreetByName("Baltic Avenue").build(new House(),board);
+        board.getStreetByName("Mediterranean Avenue").build(new Hotel(),board);
+        board.getStreetByName("Baltic Avenue").build(new Hotel(),board);
 
 
 

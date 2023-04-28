@@ -123,6 +123,9 @@ public class Street extends Field {
      * </ul>
      */
     public boolean hasEmptySlot() {
+        if (buildings.size() > 0 && buildings.get(0).toString().equals("🏩")) {
+            return false;
+        }
         return buildings.size() < 4;
     }
 
@@ -168,12 +171,12 @@ public class Street extends Field {
         String colorEmoji = getColorEmoji();
         Street[] neighborhood = board.getAllStreetsOfOneColor(color());
         boolean streetsAllHave4Houses = true;
-
         for (Street street : neighborhood) {
-            if (street.hasEmptySlot() && !street.getBuildings().contains("🏩")) {
+            if (street.hasEmptySlot()) {
                 streetsAllHave4Houses = false;
             }
         }
+
         if (building instanceof Hotel && streetsAllHave4Houses && owner.checkMoney(buildPrice)) {
             while (buildings.size() > 0) {
                 demolish();

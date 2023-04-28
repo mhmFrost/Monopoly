@@ -52,28 +52,28 @@ public class Board {
         };
 
         int[] streetPrices = {
-                60,
-                60,
-                100,
-                100,
-                120,
-                140,
-                140,
-                160,
-                180,
-                180,
-                200,
-                220,
-                220,
-                240,
-                260,
-                260,
-                280,
-                300,
-                300,
-                320,
-                350,
-                400
+                60,     // Mediterranean Avenue, Brown
+                60,     // Baltic Avenue, Brown
+                100,    // Oriental Avenue, Lightblue
+                100,    // Vermont Avenue, Lightblue
+                120,    // Connecticut Avenue, Lightblue
+                140,    // St. Charles Place, Pink
+                140,    // States Avenue, Pink
+                160,    // Virginia Avenue, Pink
+                180,    // St. James Place, Orange
+                180,    // Tennessee Avenue, Orange
+                200,    // New York Avenue, Orange
+                220,    // Kentucky Avenue, Red
+                220,    // Indiana Avenue, Red
+                240,    // Illinois Avenue, Red
+                260,    // Atlantic Avenue, Yellow
+                260,    // Ventnor Avenue, Yellow
+                280,    // Marvin Gardens, Yellow
+                300,    // Pacific Avenue, Green
+                300,    // North Carolina Avenue, Green
+                320,    // Pennsylvania Avenue, Green
+                350,    // Park Place, Blue
+                400     // Boardwalk, Blue
         };
 
         int[][] rents = {
@@ -99,9 +99,6 @@ public class Board {
                 {28, 150, 450, 1000, 1200, 1400},   // Pennsylvania Avenue, Green
                 {35, 175, 500, 1100, 1300, 1500},   // Park Place, Blue
                 {50, 200, 600, 1400, 1700, 2000},   // Boardwalk, Blue
-                // TODO: check rents
-                // {Site,1 hse,	2 hses,	3 hses,	4 hses,	Hotel}
-                // https://www.jdawiseman.com/papers/trivia/monopoly-rents.html
         };
 
         int streetCounter = 0;

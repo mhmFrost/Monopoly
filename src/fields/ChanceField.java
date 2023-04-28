@@ -34,9 +34,7 @@ public class ChanceField extends Field {
                 //new Card("💵 Oh no!", "You have been elected Chairman of the Board–Pay each player $50", 0),
                 new Card("💰 Wohoo!", "Your building and loan matures—Collect $150", 150),
                 new Card("💰 Wohoo!", "You have won a crossword competition—Collect $100", 100)
-
                 //TODO: modify Cards that are commented out
-
         ));
     }
     /**

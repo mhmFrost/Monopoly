@@ -4,6 +4,8 @@ import building.House;
 import fields.*;
 import player.Player;
 
+import java.util.Arrays;
+
 public class Main {
     public static void main(String[] args) {
         Player tim = new Player("Tim", "Orange");
@@ -23,6 +25,7 @@ public class Main {
         tim.payTax(board.getFields()[4]);
 
         board.getTrainstationByName("Reading Railroad").sell(max);
+        board.getTrainstationByName("Pennsylvania Railroad").sell(max);
 
 
         board.getServiceFieldByName("⚡️Electric Company").sell(max);
@@ -31,8 +34,9 @@ public class Main {
 
         System.out.println(max);
         System.out.println(tim);
-        max.payRent(board.getStreetByName("Baltic Avenue"));
+        tim.payRent(board.getServiceFieldByName("⚡️Electric Company"));
         System.out.println(max);
         System.out.println(tim);
+
     }
 }

@@ -16,11 +16,11 @@ public class Street extends Field {
     private int[] rents;
     private Player owner;
 
-    public Street(String name, String color, int price) {
+    public Street(String name, String color, int price, int[] rents) {
         super(name, color);
         this.price = price;
         determineBuildPrice();
-        //TODO: init rents in board setup
+        this.rents = rents;
     }
 
     @Override
@@ -192,7 +192,6 @@ public class Street extends Field {
         }
     }
 
-
     // Getter & Setter
     public int getPrice() {
         return price;
@@ -210,6 +209,10 @@ public class Street extends Field {
         this.buildings = buildings;
     }
 
+    public int getRent() {
+        // TODO: Add hotel rent later
+        return rents[buildings.size()];
+    }
     public int[] getRents() {
         return rents;
     }

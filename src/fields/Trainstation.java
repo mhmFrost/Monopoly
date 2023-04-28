@@ -2,10 +2,10 @@ package fields;
 
 import player.Player;
 
-public class Trainstation extends Field{
+public class Trainstation extends Field {
     private int price;
     private Player owner;
-    int[] upgradeFactors;
+    int[] rents = {25, 50, 100, 200};
 
     public Trainstation(String name, int price) {
         super(name, "none");
@@ -38,12 +38,21 @@ public class Trainstation extends Field{
         }
     }
 
+    public Player getOwner() {
+        return owner;
+    }
+
     private void setOwner(Player newOwner) {
         this.owner = newOwner;
     }
 
     private boolean hasOwner() {
         return owner != null;
+    }
+
+    public int getRent() {
+        var rentFactor = owner.getProperties().stream().filter(f -> f instanceof Trainstation).count();
+        return rents[(int) rentFactor];
     }
 
     @Override

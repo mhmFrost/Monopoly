@@ -99,9 +99,6 @@ public class Board {
                 {28, 150, 450, 1000, 1200, 1400},   // Pennsylvania Avenue, Green
                 {35, 175, 500, 1100, 1300, 1500},   // Park Place, Blue
                 {50, 200, 600, 1400, 1700, 2000},   // Boardwalk, Blue
-                // TODO: check rents
-                // {Site,1 hse,	2 hses,	3 hses,	4 hses,	Hotel}
-                // https://www.jdawiseman.com/papers/trivia/monopoly-rents.html
         };
 
         int streetCounter = 0;
@@ -122,7 +119,7 @@ public class Board {
                 case 30 -> fields[fieldID] = new GoToJailField();
 
                 default -> {
-                    fields[fieldID] = new Street(streets[streetCounter], streets[streetCounter + 1], streetPrices[priceCounter++]);
+                    fields[fieldID] = new Street(streets[streetCounter], streets[streetCounter + 1], streetPrices[priceCounter], rents[priceCounter++]);
                     streetCounter += 2;
                 }
             }
@@ -178,7 +175,12 @@ public class Board {
      * @see Street
      */
     public Street[] getAllStreets() {
-        return (Street[]) Arrays.stream(fields).filter(f -> f instanceof Street).toArray();
+        Object[] temp = Arrays.stream(fields).filter(f -> f instanceof Street).toArray();
+        Street[] streets = new Street[temp.length];
+        for (int s = 0; s < streets.length; s++) {
+            streets[s] = (Street) temp[s];
+        }
+        return streets;
     }
 
     /**

@@ -18,7 +18,6 @@ public class Player {
     private int doubles = 0;
     private int money = 1500;
     private boolean hasDouble = false;
-
     private int diceSum = 0;
 
     /**

@@ -51,6 +51,14 @@ public class Street extends Field {
         return colorEmoji;
     }
 
+    public void takeOutMortgage() {
+        int mortgage = owner.getMoney() + (int) (price * 0.5);
+        if (!hasMortgage()) {
+            owner.setMoney(mortgage);
+            super.setHasMortgage(true);
+            System.out.println(owner + " has got $" + mortgage + " from mortgage for " + this);
+        }
+    }
 
     /**
      * demolish building on Street
@@ -215,7 +223,6 @@ public class Street extends Field {
         // TODO: Add hotel rent later
         return rents[buildings.size()];
     }
-
     public int[] getRents() {
         return rents;
     }

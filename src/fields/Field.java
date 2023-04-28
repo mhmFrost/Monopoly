@@ -37,4 +37,8 @@ public abstract class Field {
     public boolean hasMortgage() {
         return hasMortgage;
     }
+
+    public void setHasMortgage(boolean hasMortgage) {
+        this.hasMortgage = hasMortgage;
+    }
 }

@@ -5,7 +5,6 @@ import building.Building;
 import building.Hotel;
 import building.House;
 import player.Player;
-import services.EmojiConverter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,18 +28,23 @@ public class Street extends Field {
     @Override
     public String toString() {
 
-        return (hasMortgage() ? "🚧" : "🏘")
+        String displayMortgage = hasMortgage() ? "🖍$" + ((int) ((price * 0.5) * 1.1)) : "";
+        String displayBuildings = buildings.stream().map(Object::toString).collect(Collectors.joining());
+        String displayOwner = owner != null ? " 🔑" + owner.getName() + " " : "";
+        String displayPriceRent = owner != null ? " 🧾$" + getRent() : " $" + getPrice();
+        String displayState = hasMortgage() ? "🚧" : "🏘";
+        return displayState
                 + super.name()
                 + " " + super.colorEmoji()
-                + " $" + getPrice()
-                + (owner != null ? " 🔑" + owner.getName() + " " : "")
-                + buildings.stream().map(Object::toString).collect(Collectors.joining())
-                + (hasMortgage() ? " 💸$" + ((int) ((price * 0.5) * 1.1)) : "");
+                + displayPriceRent
+                + displayOwner
+                + displayBuildings
+                + displayMortgage;
     }
 
 
     public void takeOutMortgage() {
-        int mortgage = (int) (price * 0.5);
+        int mortgage = getMortgageValue();
         if (!hasMortgage() && buildings.size() == 0) {
             owner.setMoney(owner.getMoney() + mortgage);
             super.setHasMortgage(true);
@@ -49,6 +53,8 @@ public class Street extends Field {
             System.out.println(this + " is not empty, remove buildings first ❌");
         }
     }
+
+
 
     public void paybackMortgage() {
         int paybackMortgage = (int) (price * 0.55); // half plus 10 %
@@ -63,7 +69,7 @@ public class Street extends Field {
 
     public void sellBuilding() {
         if (buildings.size() > 0) { // Todo check the possibility of evenbuilt? we should implement an other method here
-            Building temp = buildings.get(buildings.size()-1);
+            Building temp = buildings.get(buildings.size() - 1);
             demolish();
             int sellValue = (int) (buildPrice * 0.5);
             owner.setMoney(owner.getMoney() + sellValue);
@@ -198,7 +204,7 @@ public class Street extends Field {
             System.out.println(owner.getName() + " doesn't own all required streets in this neighborhood " + super.colorEmoji() + " ❌");
         }
         if (hasMortgage()) {
-            System.out.println("Can't build because of mortgage on property "  + this + " ❌");
+            System.out.println("Can't build because of mortgage on property " + this + " ❌");
         }
     }
 
@@ -243,6 +249,14 @@ public class Street extends Field {
     }
 
     // Getter & Setter
+    public int getBuildPrice() {
+        return buildPrice;
+    }
+
+    public int getMortgageValue() {
+        return (int) (price * 0.5);
+    }
+
     public int getPrice() {
         return price;
     }

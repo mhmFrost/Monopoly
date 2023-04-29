@@ -20,6 +20,18 @@ public class Board {
         setupBoard();
     }
 
+    /**
+     * Initializes game board with 40 spaces in its US version of <i>Monopoly</i>.
+     * Max: 8 Players
+     * @param playersAtStart Array of Players
+     */
+    public Board(Player[] playersAtStart){
+        this();
+        for (Player player : playersAtStart) {
+            add(player);
+        }
+    };
+
     public void setupBoard() {
         String[] streets = {
                 "Mediterranean Avenue", "Brown",

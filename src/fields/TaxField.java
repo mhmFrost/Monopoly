@@ -11,7 +11,7 @@ public class TaxField extends Field{
 
     @Override
     public String toString() {
-        return "🏦" + super.name();
+        return "🏦" + super.name() + " $" + tax;
     }
 
     public int getTax() {

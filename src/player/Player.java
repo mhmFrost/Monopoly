@@ -97,11 +97,12 @@ public class Player implements Actionable {
         return money - n > 0;
     }
 
-    public void checkMortgages() {
-        List<Field> mortgagedProperties = properties.stream().filter(Field::hasMortgage).toList();
-        for (Field mp : mortgagedProperties) {
-            System.out.println(mp);
+    public boolean checkMortgages() {
+        List<Field> mortgagedProperties = properties.stream().filter(f -> !f.hasMortgage()).toList();
+        if (mortgagedProperties.size() > 0) {
+            return true;
         }
+        return false;
     }
 
     public void drawCard(Field field) {

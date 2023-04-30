@@ -1,7 +1,7 @@
-package fields;
+package mplogic.fields;
 
-import card.Card;
-import player.Player;
+import mplogic.card.Card;
+import mplogic.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,8 @@ public class ChanceField extends Field {
                 new Card("💵 Oh no!", "Pay poor tax of $15", -15),
                 //new Card("💰 Wohoo!", "Take a trip to Reading Railroad–If you pass Go, collect $200", 0),
                 //new Card("💰 Wohoo!", "Take a walk on the Boardwalk–Advance token to Boardwalk", 0),
-                //new Card("💵 Oh no!", "You have been elected Chairman of the Board–Pay each player $50", 0),
-                new Card("💰 Wohoo!", "Your building and loan matures — Collect $150", 150),
+                //new Card("💵 Oh no!", "You have been elected Chairman of the Board–Pay each mplogic.player $50", 0),
+                new Card("💰 Wohoo!", "Your mplogic.building and loan matures — Collect $150", 150),
                 new Card("💰 Wohoo!", "You have won a crossword competition — Collect $100", 100)
                 //TODO: modify Cards that are commented out
         ));

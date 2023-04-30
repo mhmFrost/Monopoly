@@ -1,6 +1,6 @@
-package fields;
+package mplogic.fields;
 
-import player.Player;
+import mplogic.player.Player;
 
 public class GoField extends SpecialField{
     public GoField() {

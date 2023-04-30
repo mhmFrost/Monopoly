@@ -1,6 +1,6 @@
 Chance Cards
 
-1. Your building and loan matures collect 150$
+1. Your mplogic.building and loan matures collect 150$
 2. advance to Illinois Ave.
 3. Bank pays you dividend of 50 $
 4. take a ride in the reading. If you pass go collect 200$

@@ -1,10 +1,10 @@
-package fields;
+package mplogic.fields;
 
-import board.Board;
-import building.Building;
-import building.Hotel;
-import building.House;
-import player.Player;
+import mplogic.board.Board;
+import mplogic.building.Building;
+import mplogic.building.Hotel;
+import mplogic.building.House;
+import mplogic.player.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,14 +76,14 @@ public class Street extends Field {
             System.out.println("Sold " + temp + " for $" + sellValue + " on " + this);
             System.out.println(this);
         } else {
-            System.out.println("There is no building to sell ❌");
+            System.out.println("There is no mplogic.building to sell ❌");
         }
     }
 
     /**
-     * demolish building on Street
+     * demolish mplogic.building on Street
      * <ul>
-     *     <li>removes the last building in buildings</li>
+     *     <li>removes the last mplogic.building in buildings</li>
      * </ul>
      */
     public void demolish() {
@@ -128,7 +128,7 @@ public class Street extends Field {
      * evenly Built
      * checks if the min & max Buildingnumber of each Street is equal or new build + 1 is not larger than max
      *
-     * @param board current board
+     * @param board current mplogic.board
      * @return boolean
      */
     public boolean evenBuilt(Board board) {
@@ -156,7 +156,7 @@ public class Street extends Field {
     }
 
     /**
-     * build building on Street
+     * build mplogic.building on Street
      * <ul>
      *     <li>build Building on Street possibilities House or Hotel </li>
      * </ul>

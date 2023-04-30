@@ -1,12 +1,11 @@
-package fields;
+package mplogic.fields;
 
-import board.Board;
-import building.Building;
-import building.Hotel;
-import building.House;
-import card.Card;
-import player.Actionable;
-import player.Player;
+import mplogic.building.Building;
+import mplogic.building.Hotel;
+import mplogic.building.House;
+import mplogic.card.Card;
+import mplogic.player.Actionable;
+import mplogic.player.Player;
 
 import java.util.*;
 
@@ -26,7 +25,7 @@ public class CommunityChest extends Field {
                 new Card("💰 Wohoo!", "From Sale of stock you get $50", 50),
                 //new Card("Get Out of Jail Free",)
                 //new Card("Go to Jail–Go directly to jail–Do not pass Go–Do not collect $200",)
-                new Card("💰 Wohoo!","Grand Opera Night—Collect $50 from every player for opening night seats", (Player player) -> {
+                new Card("💰 Wohoo!","Grand Opera Night—Collect $50 from every mplogic.player for opening night seats", (Player player) -> {
 
                 }),
                 new Card("💵 Oh no!", "Doctor's fee — Pay $50", -50),

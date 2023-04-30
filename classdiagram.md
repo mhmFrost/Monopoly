@@ -22,10 +22,10 @@ class Street{
 +int[] upgradeValues
 +Player owner
 +Street(String name, String color, int price)
-+build(Building building)
++build(Building mplogic.building)
 +demolish()
 +sell(Player newOwner)
-+'Main Street, Brown, Owner: Tim, [🏠, 🏠]' toString()
++'mplogic.Main Street, Brown, Owner: Tim, [🏠, 🏠]' toString()
 }
 class TrainStation{
 +int price
@@ -58,7 +58,7 @@ class CommunityChest{
 }
 
 class SpecialField{
-+action(Player player)
++action(Player mplogic.player)
 }
 <<abstract>> SpecialField
 ```
@@ -73,19 +73,19 @@ SpecialField <|-- GoToJailField
 <<abstract>> SpecialField
 
 class SpecialField {
-+action(Player player)
++action(Player mplogic.player)
 }
 class GoField {
-+action(Player player)
++action(Player mplogic.player)
 }
 class JailField {
-+action(Player player)
++action(Player mplogic.player)
 }
 class FreeParkingField {
-+action(Player player)
++action(Player mplogic.player)
 }
 class GoToJailField {
-+action(Player player)
++action(Player mplogic.player)
 }
 
 note "action() is overridden for each subclass"
@@ -96,14 +96,14 @@ note "action() is overridden for each subclass"
 classDiagram
 
 class Board{
-+Field[] fields
++Field[] mplogic.fields
 +Player[] players
-+int calculateScore(Player player)
-+boolean canBuild(Player player, Field field)
++int calculateScore(Player mplogic.player)
++boolean canBuild(Player mplogic.player, Field field)
 +String printNeighborhood()
 +setupBoard()
 }
-note for Board "printNeighborHood() output:\n🏘 BROWN\n-Main Street, Owner: Tim, [🏠, 🏠] \n-Church Street, Owner: Tim, [🏠] "
+note for Board "printNeighborHood() output:\n🏘 BROWN\n-mplogic.Main Street, Owner: Tim, [🏠, 🏠] \n-Church Street, Owner: Tim, [🏠] "
 ```
 
 ```mermaid
@@ -120,8 +120,8 @@ class Player{
 +String figurine
 +Field[] properties
 +checkMortgages()
-+drawChanceCard(Card card)
-+drawCommunityChestCard(Card card)
++drawChanceCard(Card mplogic.card)
++drawCommunityChestCard(Card mplogic.card)
 +Field[] getProperties()
 +goToJail()
 +move(int n)
@@ -154,7 +154,7 @@ classDiagram
         +String message
         +int money
         +Function<Void, Void> action;
-        +activate(Player player)
+        +activate(Player mplogic.player)
         +Card(String title, String message, int money)
         +Card(String title, String message, Function action)
     }

@@ -1,7 +1,7 @@
-package player;
+package mplogic.player;
 
-import card.Card;
-import fields.*;
+import mplogic.card.Card;
+import mplogic.fields.*;
 
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class Player implements Actionable {
     private int position = 0;
 
     /**
-     * Initializes a new player with a given name, color and starting amount of $1,500 in the bank.
+     * Initializes a new mplogic.player with a given name, color and starting amount of $1,500 in the bank.
      *
      * @param name  e.g. <i>Tim</i>
      * @param color e.g. <i>red</i>
@@ -58,10 +58,10 @@ public class Player implements Actionable {
     }
 
     /**
-     * Rolls dice and moves player by any number between <b>2 - 12</b> across the board.
+     * Rolls dice and moves mplogic.player by any number between <b>2 - 12</b> across the mplogic.board.
      * <ul>
-     *     <li>If the player rolls a <b>double</b>, he/she can will automatically <b>roll again</b>.</li>
-     *     <li>If <b>3 doubles</b> occur in a row, the player is being <b>sent to jail</b>.</li>
+     *     <li>If the mplogic.player rolls a <b>double</b>, he/she can will automatically <b>roll again</b>.</li>
+     *     <li>If <b>3 doubles</b> occur in a row, the mplogic.player is being <b>sent to jail</b>.</li>
      * </ul>
      */
     public int rollDice() {
@@ -299,7 +299,7 @@ public class Player implements Actionable {
     }
 
     /**
-     * Returns player name with current balance.
+     * Returns mplogic.player name with current balance.
      *
      * @return e.g. <i>Tim $1500</i>
      */

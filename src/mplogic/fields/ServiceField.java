@@ -1,16 +1,16 @@
-package fields;
+package mplogic.fields;
 
-import player.Player;
+import mplogic.player.Player;
 
-public class Trainstation extends Field {
+public class ServiceField extends Field {
     private int price;
     private Player owner;
-    int[] rents = {25, 50, 100, 200};
 
-    public Trainstation(String name, int price) {
+    public ServiceField(String name, int price) {
         super(name, "none");
         this.price = price;
     }
+
 
     public void sell(Player newOwner) {
         if (!hasOwner() && newOwner.checkMoney(price)) {
@@ -28,7 +28,6 @@ public class Trainstation extends Field {
                 );
             }
         }
-
         if (!newOwner.checkMoney(price)) {
             System.out.println(newOwner.getName() + " doesn't have enough money to buy " + this);
         }
@@ -39,7 +38,7 @@ public class Trainstation extends Field {
     }
     public void takeOutMortgage() {
         int mortgage = (int) (price * 0.5);
-        if (!hasMortgage() ) {
+        if (!hasMortgage()) {
             owner.setMoney(owner.getMoney() + mortgage);
             super.setHasMortgage(true);
             System.out.println(owner + " has got $" + mortgage + " from mortgage for " + this);
@@ -58,9 +57,13 @@ public class Trainstation extends Field {
             System.out.println("There is no mortgage on " + this);
         }
     }
-
     public Player getOwner() {
         return owner;
+    }
+
+    public int getRent() {
+        var size = owner.getProperties().stream().filter(s -> s instanceof ServiceField).count();
+        return size == 1 ? 4 : 10;
     }
 
     private void setOwner(Player newOwner) {
@@ -70,17 +73,20 @@ public class Trainstation extends Field {
     public boolean hasOwner() {
         return owner != null;
     }
-
-    public int getRent() {
-        var rentFactor = owner.getProperties().stream().filter(f -> f instanceof Trainstation).count();
-        return rents[(int) rentFactor];
-    }
-
     @Override
     public String toString() {
-        return  (hasMortgage() ? "🚧" : "🚂")
-                + super.name()
-                + (owner != null ? " 🔑" + owner.getName() : "")
-                + (hasMortgage() ? " 💸$" + ((int) ((price * 0.5) * 1.1)) : "");
+        String displayFieldName = hasMortgage() ?
+                super.name().replace("💧", "🚧")
+                        .replace("⚡️", "🚧") : super.name();
+
+        String displayMortgage = hasMortgage() ? " 💸$" + ((int) ((price * 0.5) * 1.1)) : "";
+
+        String displayOwner = owner != null ? " 🔑" + owner.getName() : "";
+
+
+        return displayFieldName
+                + displayOwner
+                + displayMortgage;
+
     }
 }

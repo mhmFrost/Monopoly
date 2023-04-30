@@ -1,4 +1,4 @@
-package fields;
+package mplogic.fields;
 
 public class TaxField extends Field{
 

@@ -1,7 +1,7 @@
-package fields;
+package mplogic.fields;
 
-import player.Player;
-import services.EmojiConverter;
+import mplogic.player.Player;
+import mplogic.services.EmojiConverter;
 
 public abstract class Field {
     private String name;
@@ -10,7 +10,7 @@ public abstract class Field {
     private boolean hasMortgage;
 
     /**
-     * Abstract parent class of all fields in the game.
+     * Abstract parent class of all mplogic.fields in the game.
      * @param name e.g. <i>Mediterranean Avenue</i>
      * @param color e.g. <i>red</i>
      */

@@ -1,8 +1,10 @@
-import board.Board;
-import building.Hotel;
-import building.House;
-import fields.*;
-import player.Player;
+package mplogic;
+
+import mplogic.board.Board;
+import mplogic.building.Hotel;
+import mplogic.building.House;
+import mplogic.fields.*;
+import mplogic.player.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -249,7 +251,7 @@ public class Main {
     }
 
     private static void openSellDialog(Field endField) {
-        //try selling property to player
+        //try selling property to mplogic.player
         ifLandsOnPropertyForSale(endField);
 
         //pay rent where necessary

@@ -1,7 +1,6 @@
-package fields;
+package mplogic.fields;
 
-import player.Actionable;
-import player.Player;
+import mplogic.player.Player;
 
 public class GoToJailField extends SpecialField{
     public GoToJailField() {
@@ -12,7 +11,7 @@ public class GoToJailField extends SpecialField{
     public void action(Player player) {
         player.goToJail();
         //TODO: implement setPosition in class Player
-        //player.setPosition(10);
+        //mplogic.player.setPosition(10);
     }
 
     @Override

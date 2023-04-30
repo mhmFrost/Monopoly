@@ -1,7 +1,7 @@
-package board;
+package mplogic.board;
 
-import fields.*;
-import player.Player;
+import mplogic.fields.*;
+import mplogic.player.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,14 +14,14 @@ public class Board {
 
 
     /**
-     * Initializes game board with 40 spaces in its US version of <i>Monopoly</i>.
+     * Initializes game mplogic.board with 40 spaces in its US version of <i>Monopoly</i>.
      */
     public Board() {
         setupBoard();
     }
 
     /**
-     * Initializes game board with 40 spaces in its US version of <i>Monopoly</i>.
+     * Initializes game mplogic.board with 40 spaces in its US version of <i>Monopoly</i>.
      * Max: 8 Players
      * @param playersAtStart Array of Players
      */
@@ -154,7 +154,7 @@ public class Board {
     }
 
     /**
-     * Gets all fields on the board and returns them as Field[].
+     * Gets all mplogic.fields on the mplogic.board and returns them as Field[].
      *
      * @return Field[]
      * @see Field
@@ -196,7 +196,7 @@ public class Board {
     }
 
     /**
-     * Returns all streets on the board as Street[].
+     * Returns all streets on the mplogic.board as Street[].
      *
      * @return Street[]
      * @see Street
@@ -228,7 +228,7 @@ public class Board {
     }
 
     /**
-     * Prints entire board to console, with each space being represented on a line.<br><br>
+     * Prints entire mplogic.board to console, with each space being represented on a line.<br><br>
      * <i>Example Output:</i><br>
      * 🚀GO<br>
      * Mediterranean Avenue,Brown,60<br>

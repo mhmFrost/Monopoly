@@ -1,6 +1,6 @@
-package fields;
+package mplogic.fields;
 
-import player.Player;
+import mplogic.player.Player;
 
 import java.util.Scanner;
 
@@ -12,7 +12,7 @@ public class JailField extends SpecialField {
     @Override
     public void action(Player player) {
         boolean wantsToPay = false;
-        //TODO: check if player has jail-free card
+        //TODO: check if mplogic.player has jail-free mplogic.card
         if (player.getMoney() > 50) {
             System.out.println("Do you wanna pay a fine of $50 to leave jail?");
             System.out.print("Type 'true' for yes and 'false' for no:");

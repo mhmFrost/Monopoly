@@ -1,8 +1,7 @@
-package card;
+package mplogic.card;
 
-import player.Actionable;
-import player.Player;
-import java.util.function.Consumer;
+import mplogic.player.Actionable;
+import mplogic.player.Player;
 
 public class Card {
     private String title;
@@ -11,12 +10,12 @@ public class Card {
     private Actionable action;
 
     /**
-     * Creates a card, where a player can win or loose money, if drawn.
+     * Creates a mplogic.card, where a mplogic.player can win or loose money, if drawn.
      * @param title "Congratulations"
      * @param message "Banking error: collect $200"
      * @param money 200 | value can be positive or negative
-     * @see fields.CommunityChest
-     * @see fields.ChanceField
+     * @see mplogic.fields.CommunityChest
+     * @see mplogic.fields.ChanceField
      */
     public Card(String title, String message, int money) {
         this.title = title;
@@ -25,12 +24,12 @@ public class Card {
     }
 
     /**
-     * Creates a card, where a player can be sent to jail, moved or earn a ticket out of jail, if drawn.
+     * Creates a mplogic.card, where a mplogic.player can be sent to jail, moved or earn a ticket out of jail, if drawn.
      * @param title "Oops"
      * @param message "You're going to jail..."
-     * @param actionable player::goToJail
-     * @see fields.CommunityChest
-     * @see fields.ChanceField
+     * @param actionable mplogic.player::goToJail
+     * @see mplogic.fields.CommunityChest
+     * @see mplogic.fields.ChanceField
      */
     public Card(String title, String message, Actionable actionable) {
         this.title = title;

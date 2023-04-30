@@ -1,4 +1,4 @@
-package services;
+package mplogic.services;
 
 public class EmojiConverter {
     public static String getColorEmoji(String color) {

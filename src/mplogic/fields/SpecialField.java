@@ -1,7 +1,6 @@
-package fields;
+package mplogic.fields;
 
-import player.Actionable;
-import player.Player;
+import mplogic.player.Player;
 
 public abstract class SpecialField extends Field {
     public SpecialField(String name) {

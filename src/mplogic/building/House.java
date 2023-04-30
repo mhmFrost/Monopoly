@@ -1,4 +1,4 @@
-package building;
+package mplogic.building;
 
 public class House extends Building{
     @Override

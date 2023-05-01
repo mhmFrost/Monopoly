@@ -40,7 +40,9 @@ public class Street extends Field {
                 + displayBuildings
                 + displayMortgage;
     }
-
+    /**
+     * takes out mortage on the property and giving it to owners account
+     */
     public void takeOutMortgage() {
         int mortgage = getMortgageValue();
         if (!hasMortgage() && buildings.size() == 0) {
@@ -52,6 +54,9 @@ public class Street extends Field {
         }
     }
 
+    /**
+     * pays back mortage on the property by deducting the required amount from the owner
+     */
     public void paybackMortgage() {
         int paybackMortgage = (int) (price * 0.55); // half plus 10 %
         if (hasMortgage()) {
@@ -77,15 +82,16 @@ public class Street extends Field {
     }
 
     /**
-     * demolish mplogic.building on Street
-     * <ul>
-     *     <li>removes the last mplogic.building in buildings</li>
-     * </ul>
+     * demolish building on Street
+     * removes the last building in buildings<
      */
     public void demolish() {
         buildings.remove(buildings.size() - 1);
     }
 
+    /**
+     * Sets the Price for buildings
+     */
     public void determineBuildPrice() {
         switch (color().toLowerCase()) {
             case "orange", "pink" -> buildPrice = 100;
@@ -95,6 +101,13 @@ public class Street extends Field {
         }
     }
 
+    /**
+     * Own entire Neighborhood
+     * checks if Player owns each street of the specific color
+     *
+     * @param board
+     * @return true if Player owns all streets of the same color
+     */
     public boolean ownEntireNeighborhood(Board board) {
         boolean checkOwner = true;
         Street[] currentBoard = board.getAllStreetsOfOneColor(color());
@@ -107,10 +120,9 @@ public class Street extends Field {
     }
 
     /**
-     * has Empty slot
-     * <ul>
-     *     <li>returns True if there are less then 4 Buildings on the street</li>
-     * </ul>
+     * Checks if property has Empty slot
+     *
+     * @return True if there are less then 4 Buildings on the street otherwise false
      */
     public boolean hasEmptySlot() {
         if (buildings.size() > 0 && buildings.get(0).toString().equals("🏩")) {
@@ -118,6 +130,7 @@ public class Street extends Field {
         }
         return buildings.size() < 4;
     }
+
     /**
      * evenly Built
      * checks if the min & max Buildingnumber of each Street is equal or new build + 1 is not larger than max
@@ -139,21 +152,20 @@ public class Street extends Field {
     }
 
     /**
-     * has Owner
-     * <ul>
-     *     <li>If Street has no Owner return true</li>
-     *     <li>If Street has an Owner return false</li>
-     * </ul>
+     * Checks whether the property has an owner or not.
+     *
+     * @return true if property has owner, otherwise false
      */
     public boolean hasOwner() {
         return getOwner() != null;
     }
 
+
     /**
-     * build mplogic.building on Street
-     * <ul>
-     *     <li>build Building on Street possibilities House or Hotel </li>
-     * </ul>
+     * Builds a structure (either a house or a hotel) on a street in a neighborhood of the board, if the necessary conditions are met.
+     *
+     * @param building the type of structure to build
+     * @param board    the game board where the neighborhood and streets are located
      */
     public void build(Building building, Board board) {
         Street[] neighborhood = board.getAllStreetsOfOneColor(color());
@@ -218,10 +230,8 @@ public class Street extends Field {
     public void sell(Player newOwner) {
         if (!hasOwner() && newOwner.checkMoney(price)) {
             if (newOwner.buy(price)) {
-
                 this.setOwner(newOwner);
                 newOwner.addProperty(this);
-
                 System.out.println(
                         newOwner.getName()
                                 + " has bought "
@@ -232,11 +242,9 @@ public class Street extends Field {
                 );
             }
         }
-
         if (!newOwner.checkMoney(price)) {
             System.out.println(newOwner.getName() + " doesn't have enough money to buy " + this.name());
         }
-
         if (!hasOwner()) {
             System.out.println(this.name() + " " + super.colorEmoji() + " is already owned by " + owner.getName());
         }
@@ -255,17 +263,11 @@ public class Street extends Field {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     public List<Building> getBuildings() {
         return buildings;
     }
 
-    public void setBuildings(List<Building> buildings) {
-        this.buildings = buildings;
-    }
 
     public int getRent() {
         if (buildings.stream().filter(b -> b.equals("🏩")).count() == 1) {
@@ -278,9 +280,6 @@ public class Street extends Field {
         return rents;
     }
 
-    public void setRents(int[] rents) {
-        this.rents = rents;
-    }
 
     public Player getOwner() {
         return owner;

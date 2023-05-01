@@ -33,8 +33,6 @@ public class Board {
         }
     }
 
-    ;
-
     public void setupBoard() {
         String[] streets = {
                 "Mediterranean Avenue", "Brown",

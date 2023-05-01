@@ -23,14 +23,17 @@ public class Board {
     /**
      * Initializes game mplogic.board with 40 spaces in its US version of <i>Monopoly</i>.
      * Max: 8 Players
+     *
      * @param playersAtStart Array of Players
      */
-    public Board(Player[] playersAtStart){
+    public Board(Player[] playersAtStart) {
         this();
         for (Player player : playersAtStart) {
             add(player);
         }
-    };
+    }
+
+    ;
 
     public void setupBoard() {
         String[] streets = {
@@ -140,7 +143,7 @@ public class Board {
         }
     }
 
-    public void add(Player player){
+    public void add(Player player) {
         for (int i = 0; i < players.length; i++) {
             if (players[i] == null) {
                 players[i] = player;
@@ -242,7 +245,7 @@ public class Board {
         for (int i = 0; i < fields.length; i++) {
             List<Player> currentPlayersAtPositionI = new ArrayList<>();
             for (Player player : players) {
-                if (player != null && player.getPosition() == i){
+                if (player != null && player.getPosition() == i) {
                     currentPlayersAtPositionI.add(player);
                 }
             }

@@ -25,7 +25,7 @@ public class JailField extends SpecialField {
                 System.out.println(player);
             }
         }
-        if(!wantsToPay){
+        if (!wantsToPay) {
             player.rollDice();
             if (player.getDoubles() != 0) {
                 player.setInJail(false);
@@ -34,8 +34,6 @@ public class JailField extends SpecialField {
                 System.out.println("😢Oh no, you gotta stay a little longer 🔒");
             }
         }
-
-
     }
 
     @Override

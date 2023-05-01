@@ -27,7 +27,6 @@ public class Street extends Field {
 
     @Override
     public String toString() {
-
         String displayMortgage = hasMortgage() ? "🖍$" + ((int) ((price * 0.5) * 1.1)) : "";
         String displayBuildings = buildings.stream().map(Object::toString).collect(Collectors.joining());
         String displayOwner = owner != null ? " 🔑" + owner.getName() + " " : "";
@@ -42,7 +41,6 @@ public class Street extends Field {
                 + displayMortgage;
     }
 
-
     public void takeOutMortgage() {
         int mortgage = getMortgageValue();
         if (!hasMortgage() && buildings.size() == 0) {
@@ -53,8 +51,6 @@ public class Street extends Field {
             System.out.println(this + " is not empty, remove buildings first ❌");
         }
     }
-
-
 
     public void paybackMortgage() {
         int paybackMortgage = (int) (price * 0.55); // half plus 10 %
@@ -122,8 +118,6 @@ public class Street extends Field {
         }
         return buildings.size() < 4;
     }
-
-
     /**
      * evenly Built
      * checks if the min & max Buildingnumber of each Street is equal or new build + 1 is not larger than max

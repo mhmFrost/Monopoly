@@ -7,7 +7,9 @@ public abstract class SpecialField extends Field {
         super(name, "none");
     }
 
-    public void action(Player player) {};
+    public void action(Player player) {
+    }
+
     @Override
     public String toString() {
         return "SpecialField";

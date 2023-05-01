@@ -22,9 +22,9 @@ public class ChanceField extends Field {
                 //new Card("💰 Wohoo!", "Advance to St. Charles Place – If you pass Go, collect $200", 200),
                 //new Card("♟ Oh no!", "Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times the amount thrown.", 0),
                 //new Card("♟ Oh no!", "Advance token to the nearest Railroad and pay owner twice the rental to which he/she {he} is otherwise entitled. If Railroad is unowned, you may buy it from the Bank.", 0),
-//                new Card("💰 Wohoo!", "Bank pays you dividend of $50", 50),
-//                new Card("💰 Wohoo!", "Get Out of Jail Free", 50),
-//                new Card("💵 Oh no!", "Pay poor tax of $15", -15),
+                new Card("💰 Wohoo!", "Bank pays you dividend of $50", 50),
+                new Card("💰 Wohoo!", "Get Out of Jail Free", 50),
+                new Card("💵 Oh no!", "Pay poor tax of $15", -15),
                 new Card("♟ Oh no!", "Go Back 3 Spaces", (Player player) -> player.setPosition(player.getPosition() - 3)),
                 //new Card("💵 Oh no!", "Go to Jail–Go directly to Jail–Do not pass Go, do not collect $200", 0),
                 //new Card("💵 Oh no!", "Make general repairs on all your property–For each house pay $25–For each hotel $100", 0),
@@ -32,7 +32,7 @@ public class ChanceField extends Field {
                 //new Card("💰 Wohoo!", "Take a trip to Reading Railroad–If you pass Go, collect $200", 0),
                 //new Card("💰 Wohoo!", "Take a walk on the Boardwalk–Advance token to Boardwalk", 0),
                 //new Card("💵 Oh no!", "You have been elected Chairman of the Board–Pay each mplogic.player $50", 0),
-                new Card("💰 Wohoo!", "Your mplogic.building and loan matures — Collect $150", 150),
+                //new Card("💰 Wohoo!", "Your mplogic.building and loan matures — Collect $150", 150),
                 new Card("💰 Wohoo!", "You have won a crossword competition — Collect $100", 100)
                 //TODO: modify Cards that are commented out
         ));

@@ -11,14 +11,11 @@ public class ServiceField extends Field {
         this.price = price;
     }
 
-
     public void sell(Player newOwner) {
         if (!hasOwner() && newOwner.checkMoney(price)) {
             if (newOwner.buy(price)) {
-
                 this.setOwner(newOwner);
                 newOwner.addProperty(this);
-
                 System.out.println(
                         newOwner.getName()
                                 + " has bought "
@@ -31,11 +28,11 @@ public class ServiceField extends Field {
         if (!newOwner.checkMoney(price)) {
             System.out.println(newOwner.getName() + " doesn't have enough money to buy " + this);
         }
-
         if (!hasOwner()) {
             System.out.println(this + " is already owned by " + owner.getName());
         }
     }
+
     public void takeOutMortgage() {
         int mortgage = (int) (price * 0.5);
         if (!hasMortgage()) {
@@ -57,6 +54,7 @@ public class ServiceField extends Field {
             System.out.println("There is no mortgage on " + this);
         }
     }
+
     public Player getOwner() {
         return owner;
     }
@@ -73,20 +71,16 @@ public class ServiceField extends Field {
     public boolean hasOwner() {
         return owner != null;
     }
+
     @Override
     public String toString() {
         String displayFieldName = hasMortgage() ?
                 super.name().replace("💧", "🚧")
                         .replace("⚡️", "🚧") : super.name();
-
         String displayMortgage = hasMortgage() ? " 💸$" + ((int) ((price * 0.5) * 1.1)) : "";
-
         String displayOwner = owner != null ? " 🔑" + owner.getName() : "";
-
-
         return displayFieldName
                 + displayOwner
                 + displayMortgage;
-
     }
 }

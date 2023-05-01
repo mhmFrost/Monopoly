@@ -40,126 +40,6 @@ public class Street extends Field {
                 + displayBuildings
                 + displayMortgage;
     }
-    /**
-     * takes out mortage on the property and giving it to owners account
-     */
-    public void takeOutMortgage() {
-        int mortgage = getMortgageValue();
-        if (!hasMortgage() && buildings.size() == 0) {
-            owner.setMoney(owner.getMoney() + mortgage);
-            super.setHasMortgage(true);
-            System.out.println(owner + " has got $" + mortgage + " from mortgage for " + this);
-        } else {
-            System.out.println(this + " is not empty, remove buildings first ❌");
-        }
-    }
-
-    /**
-     * pays back mortage on the property by deducting the required amount from the owner
-     */
-    public void paybackMortgage() {
-        int paybackMortgage = (int) (price * 0.55); // half plus 10 %
-        if (hasMortgage()) {
-            owner.setMoney(owner.getMoney() - paybackMortgage);
-            super.setHasMortgage(false);
-            System.out.println(owner + " has paid back $" + paybackMortgage + " for " + this);
-        } else {
-            System.out.println("There is no mortgage on " + this);
-        }
-    }
-
-    public void sellBuilding() {
-        if (buildings.size() > 0) { // Todo check the possibility of evenbuilt? we should implement an other method here
-            Building temp = buildings.get(buildings.size() - 1);
-            demolish();
-            int sellValue = (int) (buildPrice * 0.5);
-            owner.setMoney(owner.getMoney() + sellValue);
-            System.out.println("Sold " + temp + " for $" + sellValue + " on " + this);
-            System.out.println(this);
-        } else {
-            System.out.println("There is no mplogic.building to sell ❌");
-        }
-    }
-
-    /**
-     * demolish building on Street
-     * removes the last building in buildings<
-     */
-    public void demolish() {
-        buildings.remove(buildings.size() - 1);
-    }
-
-    /**
-     * Sets the Price for buildings
-     */
-    public void determineBuildPrice() {
-        switch (color().toLowerCase()) {
-            case "orange", "pink" -> buildPrice = 100;
-            case "red", "yellow" -> buildPrice = 150;
-            case "green", "blue" -> buildPrice = 200;
-            default -> buildPrice = 50;
-        }
-    }
-
-    /**
-     * Own entire Neighborhood
-     * checks if Player owns each street of the specific color
-     *
-     * @param board
-     * @return true if Player owns all streets of the same color
-     */
-    public boolean ownEntireNeighborhood(Board board) {
-        boolean checkOwner = true;
-        Street[] currentBoard = board.getAllStreetsOfOneColor(color());
-        for (Street street : currentBoard) {
-            if (street.owner == null || street.owner != owner) {
-                checkOwner = false;
-            }
-        }
-        return checkOwner;
-    }
-
-    /**
-     * Checks if property has Empty slot
-     *
-     * @return True if there are less then 4 Buildings on the street otherwise false
-     */
-    public boolean hasEmptySlot() {
-        if (buildings.size() > 0 && buildings.get(0).toString().equals("🏩")) {
-            return false;
-        }
-        return buildings.size() < 4;
-    }
-
-    /**
-     * evenly Built
-     * checks if the min & max Buildingnumber of each Street is equal or new build + 1 is not larger than max
-     *
-     * @param board current mplogic.board
-     * @return boolean
-     */
-    public boolean evenBuilt(Board board) {
-        boolean evenBuilt = false;
-        Street[] neighborhood = board.getAllStreetsOfOneColor(color());
-        int max = Arrays.stream(neighborhood).mapToInt(s -> s.getBuildings().size()).max().orElse(0);
-        int min = Arrays.stream(neighborhood).mapToInt(s -> s.getBuildings().size()).min().orElse(0);
-        if (min == max) {
-            evenBuilt = true;
-        } else {
-            evenBuilt = this.getBuildings().size() + 1 <= max;
-        }
-        return evenBuilt;
-    }
-
-    /**
-     * Checks whether the property has an owner or not.
-     *
-     * @return true if property has owner, otherwise false
-     */
-    public boolean hasOwner() {
-        return getOwner() != null;
-    }
-
 
     /**
      * Builds a structure (either a house or a hotel) on a street in a neighborhood of the board, if the necessary conditions are met.
@@ -214,10 +94,108 @@ public class Street extends Field {
         }
     }
 
+    /**
+     * demolish building on Street
+     * removes the last building in buildings<
+     */
+    public void demolish() {
+        buildings.remove(buildings.size() - 1);
+    }
+
+
+    /**
+     * Sets the Price for buildings
+     */
+    public void determineBuildPrice() {
+        switch (color().toLowerCase()) {
+            case "orange", "pink" -> buildPrice = 100;
+            case "red", "yellow" -> buildPrice = 150;
+            case "green", "blue" -> buildPrice = 200;
+            default -> buildPrice = 50;
+        }
+    }
+
+    /**
+     * evenly Built
+     * checks if the min & max Buildingnumber of each Street is equal or new build + 1 is not larger than max
+     *
+     * @param board current mplogic.board
+     * @return boolean
+     */
+    public boolean evenBuilt(Board board) {
+        boolean evenBuilt = false;
+        Street[] neighborhood = board.getAllStreetsOfOneColor(color());
+        int max = Arrays.stream(neighborhood).mapToInt(s -> s.getBuildings().size()).max().orElse(0);
+        int min = Arrays.stream(neighborhood).mapToInt(s -> s.getBuildings().size()).min().orElse(0);
+        if (min == max) {
+            evenBuilt = true;
+        } else {
+            evenBuilt = this.getBuildings().size() + 1 <= max;
+        }
+        return evenBuilt;
+    }
+
+    /**
+     * add building, buy buildPrice
+     * @param building
+     */
     private void finalBuild(Building building) {
         buildings.add(building);
         owner.buy(buildPrice);
         System.out.println(this);
+    }
+
+    /**
+     * Checks if property has Empty slot
+     *
+     * @return True if there are less then 4 Buildings on the street otherwise false
+     */
+    public boolean hasEmptySlot() {
+        if (buildings.size() > 0 && buildings.get(0).toString().equals("🏩")) {
+            return false;
+        }
+        return buildings.size() < 4;
+    }
+
+    /**
+     * Checks whether the property has an owner or not.
+     *
+     * @return true if property has owner, otherwise false
+     */
+    public boolean hasOwner() {
+        return getOwner() != null;
+    }
+
+    /**
+     * Own entire Neighborhood
+     * checks if Player owns each street of the specific color
+     *
+     * @param board
+     * @return true if Player owns all streets of the same color
+     */
+    public boolean ownEntireNeighborhood(Board board) {
+        boolean checkOwner = true;
+        Street[] currentBoard = board.getAllStreetsOfOneColor(color());
+        for (Street street : currentBoard) {
+            if (street.owner == null || street.owner != owner) {
+                checkOwner = false;
+            }
+        }
+        return checkOwner;
+    }
+
+    /**
+     * pays back mortage on the property by deducting the required amount from the owner
+     */
+    public void paybackMortgage() {
+        int paybackMortgage = (int) (price * 0.55); // half plus 10 %
+        if (hasMortgage()) {
+            owner.setMoney(owner.getMoney() - paybackMortgage);
+            super.setHasMortgage(false);
+            System.out.println(owner + " has paid back $" + paybackMortgage + " for " + this);
+        } else {
+            System.out.println("There is no mortgage on " + this);
+        }
     }
 
     /**
@@ -250,6 +228,33 @@ public class Street extends Field {
         }
     }
 
+    public void sellBuilding() {
+        if (buildings.size() > 0) { // Todo check the possibility of evenbuilt? we should implement an other method here
+            Building temp = buildings.get(buildings.size() - 1);
+            demolish();
+            int sellValue = (int) (buildPrice * 0.5);
+            owner.setMoney(owner.getMoney() + sellValue);
+            System.out.println("Sold " + temp + " for $" + sellValue + " on " + this);
+            System.out.println(this);
+        } else {
+            System.out.println("There is no mplogic.building to sell ❌");
+        }
+    }
+
+    /**
+     * takes out mortage on the property and giving it to owners account
+     */
+    public void takeOutMortgage() {
+        int mortgage = getMortgageValue();
+        if (!hasMortgage() && buildings.size() == 0) {
+            owner.setMoney(owner.getMoney() + mortgage);
+            super.setHasMortgage(true);
+            System.out.println(owner + " has got $" + mortgage + " from mortgage for " + this);
+        } else {
+            System.out.println(this + " is not empty, remove buildings first ❌");
+        }
+    }
+
     // Getter & Setter
     public int getBuildPrice() {
         return buildPrice;
@@ -262,7 +267,6 @@ public class Street extends Field {
     public int getPrice() {
         return price;
     }
-
 
     public List<Building> getBuildings() {
         return buildings;

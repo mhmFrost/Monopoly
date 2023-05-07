@@ -14,13 +14,15 @@ import static java.lang.Math.abs;
 public class Main {
     private static int currentPlayerID = 0;
     private static List<Player> players;
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     private static Player activePlayer;
     private static Board board;
+    private static int diceSum;
 
     public static void main(String[] args) {
         String input = "";
 
+        //TODO: Remove hard coded players and insert start menu instead
         Player tim = new Player("Tim", "orange", "💩");
         Player max = new Player("Max", "red", "☀️");
         Player lars = new Player("Lars", "green", "🤖");
@@ -28,8 +30,7 @@ public class Main {
         board = new Board(new Player[]{tim, max, lars});
 
         //Todo: Remove following two lines for fresh start
-        board.getStreetByName("Mediterranean Avenue").sell(tim);
-        board.getStreetByName("Baltic Avenue").sell(tim);
+
         players = Arrays.stream(board.getPlayers()).filter(Objects::nonNull).toList();
 
         while (true) {
@@ -38,13 +39,14 @@ public class Main {
 
             activePlayer = players.get(currentPlayerID);
             Field startField = getField();
-            int diceSum = activePlayer.rollDice();
+            diceSum = activePlayer.rollDice();
 
             input = scanner.nextLine();
             if (onExit(input)) break; // type 'exit' to exit game
             openPropertiesDialog(input); // type 'pro' to see dialog
             openMortgageDialog(input); // type 'mor' to see dialog
 
+            openJailDialog();
             activePlayer.move(diceSum);
             Field endField = getField();
 
@@ -56,13 +58,45 @@ public class Main {
         }
     }
 
+    private static void openJailDialog() {
+        if (activePlayer.isInJail()) {
+            System.out.println("Good morning, cupcake 🧁");
+            System.out.println("Wanna try your luck? 🎲🎲");
+            System.out.print("Enter yes or anything else for no:");
+            boolean wantsOutOfJail = enteredKeyword(scanner.nextLine(), "yes", "ye", "y");
+            if (wantsOutOfJail) {
+                activePlayer.rollDice();
+                if (activePlayer.isHasDouble()) {
+                    System.out.println("🎉 Congratulations, you made it of jail. We're gonna miss ya.");
+                    System.out.println(activePlayer.getName() + ", press any key to roll dice 🎲🎲");
+                    scanner.nextLine();
+                    diceSum = activePlayer.rollDice();
+                } else {
+                    System.out.println("Not so lucky, hmmm? 😈");
+                }
+            }
+            if (activePlayer.getMoney() > 50) {
+                System.out.println("Wanna bail yourself out? 💰");
+                System.out.print("Enter yes or anything else for no:");
+                boolean wantsToPay = enteredKeyword(scanner.nextLine(), "yes", "ye", "y");
+                if (wantsToPay) {
+                    activePlayer.setMoney(activePlayer.getMoney() - 50);
+                    activePlayer.setInJail(false);
+                    System.out.println("You're a free person again...for now 😈 We're gonna miss ya.");
+                    System.out.println(activePlayer.getName() + ", press any key to roll dice 🎲🎲");
+                    scanner.nextLine();
+                    diceSum = activePlayer.rollDice();
+                }
+            }
+        }
+    }
+
     private static void openMortgageDialog(String input) {
         boolean enteredMortgageKeyword = enteredKeyword(input, "mortgage", "mort", "mor");
 
         if (enteredMortgageKeyword && activePlayer.checkMortgages()) {
             printBankWelcomeMessage();
-            boolean yes = true;
-            printMortgageOptions(yes);
+            printMortgageOptions(true);
         }
         if (enteredMortgageKeyword && !activePlayer.checkMortgages()) {
             System.out.println("You have no properties, therefore you can't take out any mortgages.");
@@ -87,8 +121,14 @@ public class Main {
         }
     }
 
-    private static boolean
-    printMortgageOptions(boolean yes) {
+    /**
+     * <i>1 🏘Mediterranean Avenue 🟤 🧾$2 🔑Tim 💸$30 🖍$33<br>
+     * 2 🏘Baltic Avenue 🟤 🧾$4 🔑Tim 💸$30 🖍$33<br>
+     * Enter number of property you would like to out the mortgage on?</i>
+     * @param yes boolean
+     * @return boolean, recursive method
+     */
+    private static boolean printMortgageOptions(boolean yes) {
         if (!yes) {
             return false;
         }
@@ -107,39 +147,42 @@ public class Main {
                 default -> {
                     properties.forEach(p -> {
                         Street street = (Street) p;
-                        System.out.println((properties.indexOf(p) + 1) + " " + street + "💸$" + street.getMortgageValue() +  " 🖍$" + (int)(street.getMortgageValue() * 1.1));
+                        System.out.println((properties.indexOf(p) + 1) + " " + street + "💸$" + street.getMortgageValue() + " 🖍$" + (int) (street.getMortgageValue() * 1.1));
                     });
                     System.out.print("Enter number of property you would like to out the mortgage on?");
                     option = scanner.nextInt() - 1;
                     ((Street) properties.get(option)).takeOutMortgage();
                 }
             }
+            System.out.println("Can we help you with anything else?");
         }
-        System.out.println("Can we help you with anything else?");
-        yes = enteredKeyword(scanner.nextLine(), "yes", "ye", "y");
         scanner.nextLine();
+        scanner.nextLine();
+        yes = enteredKeyword(scanner.nextLine(), "yes", "ye", "y");
+        printMortgageOptions(yes);
         return printMortgageOptions(yes);
     }
 
     /**
      * Checks if user entered keyword somewhat correctly.
      * Case-insensitive.
-     * @param input <i>shortkey</i>
-     * @param keyword1 <i>longkeyword</i>
-     * @param keyw2 <i>shortkey</i>
-     * @param key3 <i>key</i>
-     * @return boolean
+     *
+     * @param input    String, <i>shortkey</i>
+     * @param keyword1 String, <i>longkeyword</i>
+     * @param keyw2    String, <i>shortkey</i>
+     * @param key3     String, <i>key</i>
+     * @return boolean 'true', if matches, otherwise 'false'
      */
     private static boolean enteredKeyword(String input, String keyword1, String keyw2, String key3) {
-        boolean enteredKeyword = input.equalsIgnoreCase(keyword1);
-        boolean enteredKeyw = input.equalsIgnoreCase(keyw2);
-        boolean enteredKey = input.equalsIgnoreCase(key3);
+        boolean enteredKeyword = input.equalsIgnoreCase(keyword1.trim());
+        boolean enteredKeyw = input.equalsIgnoreCase(keyw2.trim());
+        boolean enteredKey = input.equalsIgnoreCase(key3.trim());
         return enteredKeyword || enteredKeyw || enteredKey;
     }
 
     /**
-     * Prints list of properties.<br>
-     *<i>Your properties:<br>
+     * Prints list of properties.<br><br>
+     * <i>Your properties:<br>
      * 🏘Mediterranean Avenue 🟤 🧾$2<br>
      * 🏘Baltic Avenue 🟤 🧾$4<br>
      * 👷You can build, would you like to?</i>
@@ -149,7 +192,7 @@ public class Main {
             List<Field> temp = activePlayer.getProperties();
             if (temp.size() > 0) {
                 printPropertiesOfPlayer();
-                List<Field> canBuildStreets = printUpgradableStreets();
+                List<Street> canBuildStreets = printUpgradableStreets();
                 askIfWantsToBuildMore(canBuildStreets);
             } else {
                 System.out.println("No properties to see here 👀");
@@ -158,7 +201,14 @@ public class Main {
         }
     }
 
-    private static void askIfWantsToBuildMore(List<Field> canBuildStreets) {
+    /**
+     * Ask user if they want to build more.<br><br>
+     *
+     *
+     * @param canBuildStreets List of Streets
+     * @see Street
+     */
+    private static void askIfWantsToBuildMore(List<Street> canBuildStreets) {
         if (canBuildStreets.size() > 0) {
             System.out.println("👷You can build, would you like to?");
             System.out.print("Enter yes or anything else for no:");
@@ -168,23 +218,35 @@ public class Main {
     }
 
     /**
-     *Prints upgradable streets.<br>
-     * <i>1 🏘Mediterranean Avenue 🟤 🧾$2 BUILD 🧱$50<br>
-     *   $2 🏠$10 🏠🏠$30 🏠🏠🏠$90 🏠🏠🏠🏠$160 🏩$250<br>
-     * 2 🏘Baltic Avenue 🟤 🧾$4 BUILD 🧱$50<br>
-     *   $4 🏠$20 🏠🏠$60 🏠🏠🏠$180 🏠🏠🏠🏠$320 🏩$450</i>
+     * Prints upgradable streets.<br><br>
+     * <i>1 🏘Mediterranean Avenue 🟤 🧾$2 BUILD 🧱$50
+     * $2 🏠$10 🏠🏠$30 🏠🏠🏠$90 🏠🏠🏠🏠$160 🏩$250<br><br>
+     * 2 🏘Baltic Avenue 🟤 🧾$4 BUILD 🧱$50
+     * $4 🏠$20 🏠🏠$60 🏠🏠🏠$180 🏠🏠🏠🏠$320 🏩$450</i>
      */
-    private static List<Field> printUpgradableStreets() {
-        var canBuildStreets = activePlayer.getProperties().stream().filter(s -> s instanceof Street).filter(s -> ((Street) s).ownEntireNeighborhood(board)).toList();
-        return canBuildStreets;
+    private static List<Street> printUpgradableStreets() {
+        return activePlayer.getProperties().stream()
+                .filter(s -> s instanceof Street)
+                .filter(s -> ((Street) s).ownEntireNeighborhood(board))
+                .map(s -> (Street) s)
+                .toList();
     }
 
+    /**
+     * Prints list of properties to console.<br><br>
+     * <i>Your properties:<br>
+     * 🏘Mediterranean Avenue 🟤 🧾$2<br>
+     * 🏘Baltic Avenue 🟤 🧾$4</i>
+     */
     private static void printPropertiesOfPlayer() {
         System.out.println("Your properties:");
-        activePlayer.getProperties().forEach(p -> System.out.println(p.toString().substring(0, p.toString().indexOf("🔑"))));
+        activePlayer.getProperties().forEach(p -> {
+            String fieldNameKeyRemoved = p.toString().substring(0, p.toString().indexOf("🔑"));
+            System.out.println(fieldNameKeyRemoved);
+        });
     }
 
-    private static boolean buildDialog(List<Field> canBuildStreets, boolean yes) {
+    private static boolean buildDialog(List<Street> canBuildStreets, boolean yes) {
         if (!yes) {
             return false;
         }
@@ -208,8 +270,16 @@ public class Main {
         return buildDialog(canBuildStreets, yes);
     }
 
-    private static void determineUpgradeForStreet(List<Field> canBuildStreets, int buildOn) {
-        Street streetToBuildOn = (Street) canBuildStreets.get(buildOn);
+    /**
+     * Decides automatically whether to place a house or hotel on a street.
+     * @param canBuildStreets List of Street
+     * @param buildOn number of street in player's property list
+     * @see Street
+     * @see House
+     * @see Hotel
+     */
+    private static void determineUpgradeForStreet(List<Street> canBuildStreets, int buildOn) {
+        Street streetToBuildOn = canBuildStreets.get(buildOn);
         if (streetToBuildOn.getBuildings().size() > 3) {
             streetToBuildOn.build(new Hotel(), board);
         } else {
@@ -217,14 +287,14 @@ public class Main {
         }
     }
 
-    private static void printStreetsWithPossibleUpgrades(List<Field> canBuildStreets) {
+    private static void printStreetsWithPossibleUpgrades(List<Street> canBuildStreets) {
         canBuildStreets.stream().forEach(field -> {
             String streetNum = (canBuildStreets.indexOf(field) + 1) + " ";
-            Street street = (Street) field;
+            Street street = field;
             String streetName = field.toString();
             streetName = streetName.substring(0, streetName.indexOf("🔑"));
             String printBuildPrice = "BUILD 🧱$" + street.getBuildPrice() + " ";
-            
+
             System.out.println(streetNum
                     + streetName
                     + printBuildPrice + "\n  "
@@ -324,19 +394,45 @@ public class Main {
         scanner.nextLine();
     }
 
+    /**
+     * Gets a field based on the active player's position.
+     * @return Field
+     * @see Player
+     * @see Field
+     * @see Street
+     * @see Trainstation
+     * @see ServiceField
+     * @see TaxField
+     * @see CommunityChest
+     * @see ChanceField
+     */
     private static Field getField() {
         Field startField = board.getFields()[activePlayer.getPosition()];
         return startField;
     }
 
+    /**
+     * Calculates distances between two fields.
+     * @param startField Field, e.g. 'Go'
+     * @param endField Field, e.g. 'Connecticut Avenue'
+     * @return int, e.g. 9
+     */
     private static int calculateDistance(Field startField, Field endField) {
-        int distance = Arrays.asList(board.getFields()).indexOf(endField) - Arrays.asList(board.getFields()).indexOf(startField);
+        int distance = Arrays.asList(
+                board.getFields()).indexOf(endField)
+                - Arrays.asList(board.getFields()).indexOf(startField);
+
         if (distance < 0) {
             distance = 40 % abs(distance);
         }
         return distance;
     }
 
+    /**
+     * Ends game without saving.
+     * @param input String, 'exit'
+     * @return boolean 'true', if matches, otherwise 'false'
+     */
     private static boolean onExit(String input) {
         if (input.toLowerCase().equals("exit")) {
             System.out.println("Exiting game...");
@@ -345,6 +441,9 @@ public class Main {
         return false;
     }
 
+    /**
+     * Passes turn to next player.
+     */
     private static void passTurnToPlayer() {
         currentPlayerID = currentPlayerID + 1 % players.size();
         if (currentPlayerID > players.size() - 1) {

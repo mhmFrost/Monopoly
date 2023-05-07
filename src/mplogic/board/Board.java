@@ -21,10 +21,11 @@ public class Board {
     }
 
     /**
-     * Initializes game mplogic.board with 40 spaces in its US version of <i>Monopoly</i>.
+     * Initializes game board with 40 spaces in its US version of <i>Monopoly</i>.
      * Max: 8 Players
      *
-     * @param playersAtStart Array of Players
+     * @param playersAtStart Player[]
+     * @see Player
      */
     public Board(Player[] playersAtStart) {
         this();
@@ -150,14 +151,19 @@ public class Board {
         }
     }
 
+    /**
+     * Gets all players on the board.
+     * @return Player[]
+     * @see Player
+     */
     public Player[] getPlayers() {
         return players;
     }
 
     /**
-     * Gets all mplogic.fields on the mplogic.board and returns them as Field[].
+     * Gets all fields on the board and returns them as Field[].
      *
-     * @return Field[]
+     * @return Field[], e.g. [🚀GO, 🏘Mediterranean Avenue 🟤 $60, 🏘Baltic Avenue 🟤 $60, ♦️Community Chest, ...]
      * @see Field
      * @see Street
      * @see Trainstation
@@ -173,33 +179,40 @@ public class Board {
     /**
      * Get a Street-object by a given name.
      *
-     * @param streetName e.g. <i>Mediterranean Avenue</i>
-     * @return Street-object
+     * @param name String, e.g. <i>Mediterranean Avenue</i>
+     * @return Street-object, e.g. 🏘Mediterranean Avenue 🟤 $60
      * @see Street
      */
-    public Street getStreetByName(String streetName) {
-        return (Street) Arrays.stream(fields).filter(f -> f.name().equals(streetName)).toList().get(0);
+    public Street getStreetByName(String name) {
+        return (Street) Arrays.stream(fields).filter(f -> f.name().equals(name)).toList().get(0);
     }
 
-    public ServiceField getServiceFieldByName(String serviceFieldName) {
-        return (ServiceField) Arrays.stream(fields).filter(f -> f.name().equals(serviceFieldName)).toList().get(0);
+    /**
+     * Get a ServiceField-object by a given name.
+     *
+     * @param name String, e.g. <i>Electric Company</i>
+     * @return ServiceField-object, e.g. ⚡️Electric Company
+     * @see ServiceField
+     */
+    public ServiceField getServiceFieldByName(String name) {
+        return (ServiceField) Arrays.stream(fields).filter(f -> f.name().equals(name)).toList().get(0);
     }
 
     /**
      * Get a Trainstation-object by a given name.
      *
-     * @param trainstationName e.g. <i>Reading Railroad</i>
-     * @return Trainstation-object
+     * @param name String, e.g. <i>Reading Railroad</i>
+     * @return Trainstation-object, e.g. 🚂Reading Railroad
      * @see Trainstation
      */
-    public Trainstation getTrainstationByName(String trainstationName) {
-        return (Trainstation) Arrays.stream(fields).filter(f -> f.name().equals(trainstationName)).toList().get(0);
+    public Trainstation getTrainstationByName(String name) {
+        return (Trainstation) Arrays.stream(fields).filter(f -> f.name().equals(name)).toList().get(0);
     }
 
     /**
-     * Returns all streets on the mplogic.board as Street[].
+     * Returns all streets on the board as Street[].
      *
-     * @return Street[]
+     * @return Street[], e.g. [🏘Mediterranean Avenue 🟤 $60, 🏘Baltic Avenue 🟤 $60, 🏘Oriental Avenue 🌐 $100, ...]
      * @see Street
      */
     public Street[] getAllStreets() {
@@ -214,8 +227,8 @@ public class Board {
     /**
      * Returns an array of all streets that have the same color.
      *
-     * @param color e.g. <i>red</i>
-     * @return Street[]
+     * @param color String, e.g. <i>brown</i>
+     * @return Street[], e.g. [🏘Mediterranean Avenue 🟤 $60, 🏘Baltic Avenue 🟤 $60]
      */
     public Street[] getAllStreetsOfOneColor(String color) {
         Object[] temp = Arrays.stream(fields).filter(f -> f instanceof Street && f.color().toLowerCase().equals(color.toLowerCase())).toArray();
@@ -258,7 +271,7 @@ public class Board {
      * -	Mediterranean Avenue,Brown,60,Tim,[🏠]<br>
      * -	Baltic Avenue,Brown,60,Tim,<br>
      *
-     * @param color "blue"
+     * @param color String, e.g. 'blue'
      */
     public void printStreetsOfOneColor(String color) {
         Street[] neighborhood = getAllStreetsOfOneColor(color);

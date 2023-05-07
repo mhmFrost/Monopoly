@@ -3,14 +3,19 @@ package mplogic.card;
 import mplogic.player.Actionable;
 import mplogic.player.Player;
 
+/**
+ * Card that contain title, message, money, debt or action.
+ * Check out {@link #Card(String, String, int) constructor #1} or
+ * {@link #Card(String, String, Actionable) constructor #2} for more information.
+ */
 public class Card {
-    private String title;
-    private String message;
+    private final String title;
+    private final String message;
     private int money = 0;
     private Actionable action;
 
     /**
-     * Creates a mplogic.card, where a mplogic.player can win or loose money, if drawn.
+     * Creates a card, where a player can win or loose money, if drawn.
      * @param title "Congratulations"
      * @param message "Banking error: collect $200"
      * @param money 200 | value can be positive or negative
@@ -37,6 +42,14 @@ public class Card {
         this.action = actionable;
     }
 
+    /**
+     * Activates card on current player and prints itself to console.
+     * @param player Player
+     * @see Player
+     * @see Actionable
+     * @see mplogic.fields.CommunityChest
+     * @see mplogic.fields.ChanceField
+     */
     public void activate(Player player) {
         if (action != null) {
             System.out.println( "Card 🃏\n"
